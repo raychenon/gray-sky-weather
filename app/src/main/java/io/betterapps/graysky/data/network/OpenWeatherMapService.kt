@@ -14,5 +14,4 @@ interface OpenWeatherMapService {
         @Query("lon") longitude: Double,
         @QueryMap options: Map<String, String>
     ): WeatherByLocationResponse
-
 }

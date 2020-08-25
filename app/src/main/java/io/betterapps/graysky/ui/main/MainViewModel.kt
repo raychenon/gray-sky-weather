@@ -15,7 +15,6 @@ class MainViewModel : ViewModel() {
 
     val apiHelper = ApiHelper(RetrofitFactory.weatherService)
 
-
     fun requestWeatherByLocation(
         geoLocation: GeoLocation
     ): LiveData<Resource<WeatherByLocationResponse>> =
@@ -27,5 +26,4 @@ class MainViewModel : ViewModel() {
                 emit(Resource.error(data = null, message = exception.message ?: "Miss Iganes"))
             }
         }
-
 }

@@ -23,7 +23,8 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.main_fragment, container, false)
@@ -35,11 +36,14 @@ class MainFragment : Fragment() {
         // TODO: Use the ViewModel
 
         viewModel.requestWeatherByLocation(GeoLocation(52.520007, 13.404954))
-            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                it?.let { resource ->
-                    processCommitResult(resource)
+            .observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer {
+                    it?.let { resource ->
+                        processCommitResult(resource)
+                    }
                 }
-            })
+            )
     }
 
     private fun processCommitResult(
@@ -52,13 +56,11 @@ class MainFragment : Fragment() {
             }
             Status.SUCCESS -> {
                 message.text = resource.data!!.toString()
-                Timber.d("Weather Success ${resource.data.toString()}")
+                Timber.d("Weather Success ${resource.data}")
             }
             Status.ERROR -> {
                 Timber.d("Weather ERROR")
             }
         }
     }
-
-
 }

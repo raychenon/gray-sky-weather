@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.application' // uses the plugin: 'java'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -22,6 +22,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    // Enables data binding.
+    buildFeatures.dataBinding = true
 }
 
 configurations {
@@ -40,7 +52,6 @@ ext {
 }
 
 dependencies {
-    ktlint "com.pinterest:ktlint:0.38.1"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -71,17 +82,6 @@ dependencies {
 
 }
 
-task ktlint(type: JavaExec, group: "verification") {
-    description = "Check Kotlin code style."
-    classpath = configurations.ktlint
-//    main = "io.betterapps.graysky.MainActivity"
-    args "src/**/*.kt"
-}
-check.dependsOn ktlint
-
-task ktlintFormat(type: JavaExec, group: "formatting") {
-    description = "Fix Kotlin code style deviations."
-    classpath = configurations.ktlint
-//    main = "io.betterapps.graysky.MainActivity"
-    args "-F", "src/**/*.kt"
+tasks.withType(org.jlleitschuh.gradle.ktlint.KtlintCheckTask) {
+    reporterOutputDir = project.layout.buildDirectory.dir("reports/ktlint")
 }

@@ -16,5 +16,4 @@ object RetrofitFactory {
         .build()
 
     val weatherService: OpenWeatherMapService = retrofit.create(OpenWeatherMapService::class.java)
-
 }
