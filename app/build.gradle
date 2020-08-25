@@ -24,10 +24,15 @@ android {
     }
 }
 
+configurations {
+    ktlint
+}
+
 ext {
     retrofit = "2.7.1"
     okHttp = "4.2.2"
     gson_version = "2.8.6"
+    retrofit_gson = "2.9.0"
     coroutines = "1.3.2"
     databinding = "3.1.4"
     navigationx = "2.2.2"
@@ -35,6 +40,8 @@ ext {
 }
 
 dependencies {
+    ktlint "com.pinterest:ktlint:0.38.1"
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.1'
@@ -42,11 +49,12 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     // network
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.okhttp3:okhttp:${okHttp}"
-
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit_gson}"
     implementation "com.google.code.gson:gson:$gson_version"
 
 
@@ -61,4 +69,19 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+//    main = "io.betterapps.graysky.MainActivity"
+    args "src/**/*.kt"
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+//    main = "io.betterapps.graysky.MainActivity"
+    args "-F", "src/**/*.kt"
 }
