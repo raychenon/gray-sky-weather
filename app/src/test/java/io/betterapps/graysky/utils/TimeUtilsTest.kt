@@ -1,4 +1,4 @@
-package io.betterapps.graysky.util
+package io.betterapps.graysky.utils
 
 import org.junit.Assert
 import org.junit.Test

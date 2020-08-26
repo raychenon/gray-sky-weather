@@ -1,4 +1,4 @@
-package io.betterapps.graysky.util
+package io.betterapps.graysky.utils
 
 import java.text.SimpleDateFormat
 import java.util.TimeZone

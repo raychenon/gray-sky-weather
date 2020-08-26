@@ -1,7 +1,7 @@
 package io.betterapps.graysky.data.models
 
 import com.google.gson.annotations.SerializedName
-import io.betterapps.graysky.util.TimeUtils
+import io.betterapps.graysky.utils.TimeUtils
 
 // todo find a better name
 data class WeatherUnit(
