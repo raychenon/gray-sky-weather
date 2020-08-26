@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "666378997845",
+    "firebase_url": "https://dark-sky-weather-b783a.firebaseio.com",
+    "project_id": "dark-sky-weather-b783a",
+    "storage_bucket": "dark-sky-weather-b783a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666378997845:android:70f50c1d15aa33fdfe04dc",
+        "android_client_info": {
+          "package_name": "io.betterapps.graysky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "666378997845-utvadddcv1ehbmm7di33pkgecfteosrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_WDD42N6V_4wmApCxpGytzPzMRTz22a0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "666378997845-utvadddcv1ehbmm7di33pkgecfteosrr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
