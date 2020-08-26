@@ -1,6 +1,6 @@
 package io.betterapps.graysky.utils
 
-import io.betterapps.graysky.data.models.GeoLocation
+import io.betterapps.graysky.data.domains.GeoLocation
 
 object DistanceUtils {
 

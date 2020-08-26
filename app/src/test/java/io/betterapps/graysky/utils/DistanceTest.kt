@@ -1,6 +1,6 @@
 package io.betterapps.graysky.utils
 
-import io.betterapps.graysky.data.models.GeoLocation
+import io.betterapps.graysky.data.domains.GeoLocation
 import org.junit.Assert
 import org.junit.Test
 
@@ -13,7 +13,6 @@ class DistanceTest {
 
         val distanceBerlinParis = DistanceUtils.distance(Berlin, Paris)
         val distanceParisBerlin = DistanceUtils.distance(Paris, Berlin)
-
 
         Assert.assertEquals(distanceBerlinParis, distanceParisBerlin, 0.001)
         Assert.assertEquals(877.859, distanceParisBerlin, 0.001)

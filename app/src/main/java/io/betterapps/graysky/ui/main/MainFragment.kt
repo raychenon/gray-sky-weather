@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.betterapps.graysky.R
 import io.betterapps.graysky.data.coroutines.Resource
 import io.betterapps.graysky.data.coroutines.Status
-import io.betterapps.graysky.data.models.GeoLocation
+import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.models.WeatherByLocationResponse
 import io.betterapps.graysky.ui.adapter.HourlyWeatherAdapter
 import kotlinx.android.synthetic.main.main_fragment.*

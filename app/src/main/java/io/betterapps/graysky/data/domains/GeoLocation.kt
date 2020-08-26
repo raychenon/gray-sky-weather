@@ -1,4 +1,4 @@
-package io.betterapps.graysky.data.models
+package io.betterapps.graysky.data.domains
 
 data class GeoLocation(
     val latitude: Double,
