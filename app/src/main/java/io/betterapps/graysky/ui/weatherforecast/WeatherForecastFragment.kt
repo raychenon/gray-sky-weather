@@ -26,11 +26,13 @@ class WeatherForecastFragment : Fragment() {
         const val ARG_LOCATION = "location_name"
         const val ARG_LATITUDE = "latitude"
         const val ARG_LONGITUDE = "longitude"
+        const val ARG_DISTANCE = "distance"
 
         fun newInstance(
             name: String,
             latitude: Double,
-            longitude: Double
+            longitude: Double,
+            distanceFromUserLocation: Double
         ): WeatherForecastFragment {
             val fragment = WeatherForecastFragment()
 
@@ -38,6 +40,7 @@ class WeatherForecastFragment : Fragment() {
                 putString(ARG_LOCATION, name)
                 putDouble(ARG_LATITUDE, latitude)
                 putDouble(ARG_LONGITUDE, longitude)
+                putDouble(ARG_DISTANCE, distanceFromUserLocation)
             }
 
             fragment.arguments = bundle
@@ -48,6 +51,7 @@ class WeatherForecastFragment : Fragment() {
 
     lateinit var locationName: String
     lateinit var geolocation: GeoLocation
+    var distanceFromUserLocation: Double = 0.0
 
     // lazy inject MyViewModel
     val mainViewModel: MainViewModel by viewModel()
@@ -62,6 +66,7 @@ class WeatherForecastFragment : Fragment() {
             arguments?.getDouble(ARG_LATITUDE)!!,
             arguments?.getDouble(ARG_LONGITUDE)!!
         )
+        distanceFromUserLocation = arguments?.getDouble(ARG_DISTANCE)!!
 
         return inflater.inflate(R.layout.forecast_weather_fragment, container, false)
     }
@@ -74,7 +79,8 @@ class WeatherForecastFragment : Fragment() {
         assertNotNull(mainViewModel.repository)
         assertNotNull(locationName)
 
-        forcecast_weather_location_textview.text = locationName
+        forcecast_weather_location_textview.text =
+            getString(R.string.location_format, locationName, distanceFromUserLocation.toInt())
 
         mainViewModel.requestWeatherByLocation(geolocation)
             .observe(
@@ -102,7 +108,6 @@ class WeatherForecastFragment : Fragment() {
             }
             Status.ERROR -> {
                 forcecast_weather_progressbar.visibility = View.INVISIBLE
-                Timber.d("Weather ERROR")
             }
         }
     }
@@ -114,7 +119,6 @@ class WeatherForecastFragment : Fragment() {
             LinearLayout.HORIZONTAL
         )
         forcecast_weather_recyclerview.addItemDecoration(dividerItemDecoration)
-        // add divider
 
         val horizontalLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
