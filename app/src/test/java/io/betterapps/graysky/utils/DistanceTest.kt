@@ -35,7 +35,8 @@ class DistanceTest {
         val Paris = GeoLocation(48.8534, 2.3488)
 
         val distanceParisTahiti = DistanceUtils.distance(Paris, Tahiti)
-        
         Assert.assertEquals(15715.484, distanceParisTahiti, 0.001)
+        // extension function
+        Assert.assertEquals(15715.484, Tahiti.distance(Paris), 0.001)
     }
 }
