@@ -14,7 +14,6 @@ import io.betterapps.graysky.data.coroutines.Status
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.models.WeatherByLocationResponse
 import io.betterapps.graysky.ui.adapter.HourlyWeatherAdapter
-import io.betterapps.graysky.ui.main.MainViewModel
 import kotlinx.android.synthetic.main.forecast_weather_fragment.*
 import org.junit.Assert.assertNotNull
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -53,8 +52,8 @@ class WeatherForecastFragment : Fragment() {
     lateinit var geolocation: GeoLocation
     var distanceFromUserLocation: Double = 0.0
 
-    // lazy inject MyViewModel
-    val mainViewModel: MainViewModel by viewModel()
+    // lazy inject
+    val weatherViewModel: WeatherViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,14 +74,14 @@ class WeatherForecastFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // since Koin DI is done at run time instead of compile time, better to check
-        assertNotNull(mainViewModel)
-        assertNotNull(mainViewModel.repository)
+        assertNotNull(weatherViewModel)
+        assertNotNull(weatherViewModel.repository)
         assertNotNull(locationName)
 
         forcecast_weather_location_textview.text =
             getString(R.string.location_format, locationName, distanceFromUserLocation.toInt())
 
-        mainViewModel.requestWeatherByLocation(geolocation)
+        weatherViewModel.requestWeatherByLocation(geolocation)
             .observe(
                 viewLifecycleOwner,
                 androidx.lifecycle.Observer {

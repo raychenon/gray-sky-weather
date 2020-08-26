@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.betterapps.graysky.R
+import io.betterapps.graysky.ui.weatherforecast.WeatherViewModel
 import org.junit.Assert.assertNotNull
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -16,7 +17,7 @@ class MainFragment : Fragment() {
     }
 
     // lazy inject MyViewModel
-    val mainViewModel: MainViewModel by viewModel()
+    val mainViewModel: WeatherViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
