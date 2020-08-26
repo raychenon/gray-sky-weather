@@ -1,6 +1,7 @@
 package io.betterapps.graysky.data.models
 
 import com.google.gson.annotations.SerializedName
+import java.util.TimeZone
 
 // todo find a better name
 data class WeatherUnit(
@@ -27,7 +28,8 @@ data class WeatherUnit(
     }
 
     fun actualLocalTime(timeOffset: Long = 0, format: String = "HH:mm"): String {
-        val sdf = java.text.SimpleDateFormat(format) // "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val sdf = java.text.SimpleDateFormat(format)
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT")) // set time zone independent of the local computer
         val date = java.util.Date((dateTime + timeOffset) * 1000)
         return sdf.format(date)
     }
