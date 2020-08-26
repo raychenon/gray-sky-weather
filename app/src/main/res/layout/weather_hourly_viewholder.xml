@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding"
+    >
+
+    <TextView
+        android:id="@+id/weather_hour_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="17h00"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/weather_hour_real_temp_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="25 C"
+        app:layout_constraintTop_toBottomOf="@id/weather_hour_time_textview"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/weather_hour_feel_temp_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="27 C"
+        app:layout_constraintTop_toBottomOf="@id/weather_hour_real_temp_textview"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/weather_icon_imageview"
+        android:layout_width="@dimen/weather_icon_height"
+        android:layout_height="@dimen/weather_icon_height"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/weather_hour_feel_temp_textview"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
