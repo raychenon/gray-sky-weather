@@ -17,7 +17,6 @@ import io.betterapps.graysky.ui.adapter.HourlyWeatherAdapter
 import kotlinx.android.synthetic.main.forecast_weather_fragment.*
 import org.junit.Assert.assertNotNull
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class WeatherForecastFragment : Fragment() {
 
@@ -78,7 +77,7 @@ class WeatherForecastFragment : Fragment() {
         assertNotNull(weatherViewModel.repository)
         assertNotNull(locationName)
 
-        forcecast_weather_location_textview.text =
+        forecast_weather_location_textview.text =
             getString(R.string.location_format, locationName, distanceFromUserLocation.toInt())
 
         weatherViewModel.requestWeatherByLocation(geolocation)
@@ -97,16 +96,18 @@ class WeatherForecastFragment : Fragment() {
     ) {
         when (resource.status) {
             Status.LOADING -> {
-                forcecast_weather_progressbar.visibility = View.VISIBLE
-                Timber.d("Weather LOADING")
+                forecast_weather_progressbar.visibility = View.VISIBLE
             }
             Status.SUCCESS -> {
-                forcecast_weather_progressbar.visibility = View.INVISIBLE
-                Timber.d("Weather Success ${resource.data}")
-                setupUI(response = resource.data!!)
+                forecast_weather_progressbar.visibility = View.INVISIBLE
+                forecast_weather_error_textview.visibility = View.GONE
+
+                resource.data?.let { setupUI(it) }
             }
             Status.ERROR -> {
-                forcecast_weather_progressbar.visibility = View.INVISIBLE
+                forecast_weather_progressbar.visibility = View.INVISIBLE
+                forecast_weather_error_textview.visibility = View.VISIBLE
+                forecast_weather_error_textview.text = resource.message
             }
         }
     }
@@ -114,16 +115,16 @@ class WeatherForecastFragment : Fragment() {
     private fun setupUI(response: WeatherByLocationResponse) {
         // add divider
         val dividerItemDecoration = DividerItemDecoration(
-            forcecast_weather_recyclerview.context,
+            forecast_weather_recyclerview.context,
             LinearLayout.HORIZONTAL
         )
-        forcecast_weather_recyclerview.addItemDecoration(dividerItemDecoration)
+        forecast_weather_recyclerview.addItemDecoration(dividerItemDecoration)
 
         val horizontalLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         val weatherAdapter = HourlyWeatherAdapter(response)
-        forcecast_weather_recyclerview.apply {
+        forecast_weather_recyclerview.apply {
             adapter = weatherAdapter
             layoutManager = horizontalLayoutManager
         }

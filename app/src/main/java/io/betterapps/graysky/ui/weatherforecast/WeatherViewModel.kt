@@ -19,7 +19,7 @@ class WeatherViewModel(val repository: WeatherRepository) : ViewModel() {
             try {
                 emit(Resource.success(repository.getWeatherByLocation(geoLocation)))
             } catch (exception: Exception) {
-                emit(Resource.error(data = null, message = exception.message ?: "Miss Iganes"))
+                emit(Resource.error(data = null, message = exception.message ?: "Error"))
             }
         }
 }
