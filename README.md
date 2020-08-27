@@ -25,7 +25,7 @@ If the weather forecast were constantly updated, the references to this Fragment
 
 The coroutines/LiveData are a good replacement for RxJava's SingleObserver.
 
-## 🕵️‍♂️ How to run
+## 🕵️‍ How to run
 
 Clone this project
 >git clone https://github.com/raychenon/gray-sky-weather.git
@@ -34,8 +34,10 @@ Open in [Android Studio](https://developer.android.com/studio) the file `build.g
 
 Build & Run 🔥
 
-## 🕵️‍♂️ How to test 
-All the locations are hardcoded in `GlobalConstants.CITIES`
+## 🕵️‍ How to test 
+All the locations are hardcoded in `GlobalConstants.CITIES`.
+
+You can change the latitude and longitude of the `GlobalConstants.USER_LOCATION`.
 
 ## 🦁 TODO
  - add the feature "user's current geolocation". It needs an user flow(permission accepted, permission denied)
@@ -46,4 +48,4 @@ All the locations are hardcoded in `GlobalConstants.CITIES`
 ## 🎁 Licence
 This app is released under the [Apache License 2.0](https://github.com/raychenon/gray-sky-weather/blob/master/LICENSE).
 
-You can read[the terms of Apache License 2.0 in simple English](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0))
+You can read [the terms of Apache License 2.0 in simple English](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0))
