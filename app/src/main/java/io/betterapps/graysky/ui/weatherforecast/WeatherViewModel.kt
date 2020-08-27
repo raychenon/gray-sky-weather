@@ -9,6 +9,7 @@ import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.models.WeatherByLocationResponse
 import io.betterapps.graysky.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
+import timber.log.Timber
 import java.io.IOException
 
 class WeatherViewModel(val repository: WeatherRepository) : ViewModel() {
@@ -32,21 +33,18 @@ class WeatherViewModel(val repository: WeatherRepository) : ViewModel() {
         geocoder: Geocoder,
         geoLocation: GeoLocation
     ): LiveData<String> = liveData(Dispatchers.IO) {
-        var name: String? = null
         try {
             val addresses = geocoder.getFromLocation(geoLocation.latitude, geoLocation.longitude, 1)
-
+            Timber.d("Geocoder try ${addresses.toString()}")
             if (addresses != null && addresses.size > 0) {
-                name = addresses[0].toString()
+                val cityName = addresses[0].locality
+                cityName?.let { emit(it) } ?: emit("error")
             } else {
                 emit("No found")
             }
         } catch (e: IOException) {
+            Timber.e("Geocoder exception ${e.toString()}")
             emit("Error ")
-            // Log.e(TAG, "Impossible to connect to Geocoder", e)
-            // Timber.e("error", e)
-        } finally {
-            name?.let { emit(it) } ?: emit("error")
         }
     }
 }

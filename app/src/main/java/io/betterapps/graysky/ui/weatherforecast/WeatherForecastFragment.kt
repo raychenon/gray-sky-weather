@@ -18,6 +18,7 @@ import io.betterapps.graysky.ui.adapter.HourlyWeatherAdapter
 import kotlinx.android.synthetic.main.forecast_weather_fragment.*
 import org.junit.Assert.assertNotNull
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import java.util.Locale
 
 class WeatherForecastFragment : Fragment() {
@@ -79,8 +80,8 @@ class WeatherForecastFragment : Fragment() {
         assertNotNull(weatherViewModel.repository)
         assertNotNull(locationName)
 
-        forecast_weather_location_textview.text =
-            getString(R.string.location_format, locationName, distanceFromUserLocation.toInt())
+
+
 
         weatherViewModel.requestWeatherByLocation(geolocation)
             .observe(
@@ -92,28 +93,29 @@ class WeatherForecastFragment : Fragment() {
                 }
             )
 
+        // displayCityName(locationName, distanceFromUserLocation.toInt())
         if (Geocoder.isPresent()) {
-            val gcd = Geocoder(context, Locale.getDefault())
-            weatherViewModel.requestCityName(gcd, geolocation)
+            val geocoder = Geocoder(context, Locale.US)
+            Timber.i("Geocoder present")
+            weatherViewModel.requestCityName(geocoder, geolocation)
                 .observe(
                     viewLifecycleOwner,
                     androidx.lifecycle.Observer {
                         it?.let { cityName ->
-                            forecast_weather_error_textview.text = getString(
-                                R.string.location_format,
-                                cityName,
-                                distanceFromUserLocation.toInt()
-                            )
+                            Timber.i("Geocoder livedata received ${cityName}")
+                            displayCityName(cityName, distanceFromUserLocation.toInt())
                         }
                     }
                 )
         } else {
-            forecast_weather_error_textview.text = getString(
-                R.string.location_format,
-                "Fake",
-                distanceFromUserLocation.toInt()
-            )
+            displayCityName("No geocoder", distanceFromUserLocation.toInt())
         }
+    }
+
+    private fun displayCityName(cityName: String, distanceFromUserLocation: Int) {
+        Timber.i("displayCityName $cityName $distanceFromUserLocation")
+        forecast_weather_location_textview.text =
+            getString(R.string.location_format, cityName, distanceFromUserLocation)
     }
 
     private fun processWeatherResults(

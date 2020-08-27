@@ -33,7 +33,7 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     fun bindData(item: WeatherUnit, timezoneOffset: Long) {
         timeTextView.text = item.actualLocalTime(timeOffset = timezoneOffset)
         realTempTextView.text = formatTemperature(item.temperature)
-        feelLikeTempeTextView.text = formatTemperature(item.feelsLikeTemperature)
+        // feelLikeTempeTextView.text = formatTemperature(item.feelsLikeTemperature)
         ImageLoader.load(iconView, item.iconURL())
     }
 

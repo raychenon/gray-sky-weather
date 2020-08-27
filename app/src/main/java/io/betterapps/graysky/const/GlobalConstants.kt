@@ -8,6 +8,7 @@ object GlobalConstants {
     const val BASE_URL = "https://api.openweathermap.org/"
 
     const val API_ID = "3e20bab8cf7b31f1aadb98d108f23153"
+    //const val API_ID = "123ecab62dd22e2ba983c28b73c630cb" // 2nd key, if you reached the limit
 
     val CITIES = listOf<Location>(
         Location("Paris", GeoLocation(48.8534, 2.3488)),
