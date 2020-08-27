@@ -1,5 +1,6 @@
 package io.betterapps.graysky.ui.weatherforecast
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import io.betterapps.graysky.ui.adapter.HourlyWeatherAdapter
 import kotlinx.android.synthetic.main.forecast_weather_fragment.*
 import org.junit.Assert.assertNotNull
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.Locale
 
 class WeatherForecastFragment : Fragment() {
 
@@ -89,6 +91,29 @@ class WeatherForecastFragment : Fragment() {
                     }
                 }
             )
+
+        if (Geocoder.isPresent()) {
+            val gcd = Geocoder(context, Locale.getDefault())
+            weatherViewModel.requestCityName(gcd, geolocation)
+                .observe(
+                    viewLifecycleOwner,
+                    androidx.lifecycle.Observer {
+                        it?.let { cityName ->
+                            forecast_weather_error_textview.text = getString(
+                                R.string.location_format,
+                                cityName,
+                                distanceFromUserLocation.toInt()
+                            )
+                        }
+                    }
+                )
+        } else {
+            forecast_weather_error_textview.text = getString(
+                R.string.location_format,
+                "Fake",
+                distanceFromUserLocation.toInt()
+            )
+        }
     }
 
     private fun processWeatherResults(

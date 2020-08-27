@@ -3,7 +3,6 @@ package io.betterapps.graysky
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.betterapps.graysky.const.GlobalConstants
-import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.domains.Location
 import io.betterapps.graysky.ui.main.MainViewModel
 import io.betterapps.graysky.ui.weatherforecast.WeatherForecastFragment
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
-            mainViewModel.sortByDistance(GeoLocation(52.520007, 13.404954), GlobalConstants.cities)
+            mainViewModel.sortByDistance(GlobalConstants.USER_LOCATION, GlobalConstants.CITIES)
                 .observe(
                     this,
                     androidx.lifecycle.Observer { it?.let { locations -> showWeatherFragments(locations) } }
