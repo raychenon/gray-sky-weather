@@ -8,7 +8,7 @@
     tools:context=".ui.main.MainFragment">
 
     <TextView
-        android:id="@+id/forcecast_weather_location_textview"
+        android:id="@+id/forecast_weather_location_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Paris"
@@ -18,15 +18,29 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/forcecast_weather_recyclerview"
+        android:id="@+id/forecast_weather_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/forcecast_weather_location_textview"
+        app:layout_constraintTop_toBottomOf="@id/forecast_weather_location_textview"
         app:layout_constraintLeft_toLeftOf="parent" />
 
+    <TextView
+        android:id="@+id/forecast_weather_error_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/errorBackground"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
     <ProgressBar
-        android:id="@+id/forcecast_weather_progressbar"
+        android:id="@+id/forecast_weather_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
