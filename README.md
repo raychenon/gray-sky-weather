@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/raychenon/gray-sky-weather.svg?style=svg)](https://circleci.com/gh/raychenon/gray-sky-weather)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3956ff886ee6f5b1cd33/maintainability)](https://codeclimate.com/github/raychenon/gray-sky-weather/maintainability)
 
 # Gray Sky
 ☀️ The app that makes your mood affect the weather.
