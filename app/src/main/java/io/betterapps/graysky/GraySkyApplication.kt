@@ -6,7 +6,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.core.context.startKoin
 import timber.log.Timber
-
 import timber.log.Timber.DebugTree
 
 class GraySkyApplication : Application() {

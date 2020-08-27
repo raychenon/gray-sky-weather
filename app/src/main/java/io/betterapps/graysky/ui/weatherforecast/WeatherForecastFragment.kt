@@ -80,9 +80,6 @@ class WeatherForecastFragment : Fragment() {
         assertNotNull(weatherViewModel.repository)
         assertNotNull(locationName)
 
-
-
-
         weatherViewModel.requestWeatherByLocation(geolocation)
             .observe(
                 viewLifecycleOwner,
@@ -102,7 +99,7 @@ class WeatherForecastFragment : Fragment() {
                     viewLifecycleOwner,
                     androidx.lifecycle.Observer {
                         it?.let { cityName ->
-                            Timber.i("Geocoder livedata received ${cityName}")
+                            Timber.i("Geocoder livedata received $cityName")
                             displayCityName(cityName, distanceFromUserLocation.toInt())
                         }
                     }

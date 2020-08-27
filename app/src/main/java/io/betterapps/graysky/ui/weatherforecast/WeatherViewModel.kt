@@ -35,7 +35,7 @@ class WeatherViewModel(val repository: WeatherRepository) : ViewModel() {
     ): LiveData<String> = liveData(Dispatchers.IO) {
         try {
             val addresses = geocoder.getFromLocation(geoLocation.latitude, geoLocation.longitude, 1)
-            Timber.d("Geocoder try ${addresses.toString()}")
+            Timber.d("Geocoder try $addresses")
             if (addresses != null && addresses.size > 0) {
                 val cityName = addresses[0].locality
                 cityName?.let { emit(it) } ?: emit("error")
@@ -43,7 +43,7 @@ class WeatherViewModel(val repository: WeatherRepository) : ViewModel() {
                 emit("No found")
             }
         } catch (e: IOException) {
-            Timber.e("Geocoder exception ${e.toString()}")
+            Timber.e("Geocoder exception $e")
             emit("Error ")
         }
     }

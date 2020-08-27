@@ -10,22 +10,37 @@ Gray Sky Weather is the app to compare the closest locations weather on the same
 At first, this project is part of the interview process at [Shadow](https://shadow.tech) and the initial inspirations come from [Sunly](https://github.com/carayolthomas/Sunly-Objc)
 
 The name Gray Sky is after [Dark Sky got bought by Apple](https://blog.darksky.net/).
-Of course, I am still hoping to join the [Shadow](https://shadow.tech) 💻
+Of course, I am still hoping to join the [Shadow](https://shadow.tech) 💻.
+
 I plan to publish on the Google Play store and improve the project.
 
 ## 🏘️ Architecture
 I use **MVVM**, which is de facto Clean Architecture promoted by Google.
-Each location weather forecast is self contained in a fragment `WeatherForecastFragment`, responsible to request its data( weather forecast and reverse geocoding).
+
+Each location weather forecast is self-contained in a fragment `WeatherForecastFragment`, responsible to request its data( weather forecast and reverse geocoding).
 If the weather forecast were constantly updated, the references to this Fragment would be kept at the parent level(`MainActivity`) to coordinate.
+
 The coroutines/LiveData are a good replacement for RxJava's SingleObserver.
+
+## 🕵️‍♂️ How to run
+
+Clone this project
+>git clone https://github.com/raychenon/gray-sky-weather.git
+
+Open in [Android Studio](https://developer.android.com/studio) the file `build.gradle` (the one at root folder).
+
+Build & Run 🔥
 
 ## 🕵️‍♂️ How to test 
 All the locations are hardcoded in `GlobalConstants.CITIES`
 
 ## 🦁 TODO
- - add the feature "user's current geolocation" . It needs an user flow(permission accepted, permission denied)
+ - add the feature "user's current geolocation". It needs an user flow(permission accepted, permission denied)
  - Unit testing
  - UI testing
+ - nice animations (ex: Lottie)
 
 ## 🎁 Licence
-This app is released under the [MIT License](https://github.com/raychenon/gray-sky-weather/blob/master/LICENSE).
+This app is released under the [Apache License 2.0](https://github.com/raychenon/gray-sky-weather/blob/master/LICENSE).
+
+The [meanings of Apache License 2.0](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)
