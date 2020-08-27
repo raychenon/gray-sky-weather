@@ -45,6 +45,9 @@ You can change the latitude and longitude of the `GlobalConstants.USER_LOCATION`
  - UI testing
  - nice animations (ex: Lottie)
 
+## 🙏 Acknowledgements & Special thanks
+The weather data and icons come from [openweathermap.org](https://openweathermap.org/)
+
 ## 🎁 Licence
 This app is released under the [Apache License 2.0](https://github.com/raychenon/gray-sky-weather/blob/master/LICENSE).
 
