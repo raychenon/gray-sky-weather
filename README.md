@@ -7,6 +7,8 @@
 
 ## ☀️ About
 Gray Sky Weather is the app to compare the closest locations weather on the same timeline.
+Talking about the weather can be used as an ice-breaker with a stranger or in difficult situations (ex: a job interview).
+
 At first, this project is part of the interview process at [Shadow](https://shadow.tech) and the initial inspirations come from [Sunly](https://github.com/carayolthomas/Sunly-Objc)
 
 The name Gray Sky is after [Dark Sky got bought by Apple](https://blog.darksky.net/).
@@ -17,7 +19,7 @@ I plan to publish on the Google Play store and improve the project.
 ## 🏘️ Architecture
 I use **MVVM**, which is de facto Clean Architecture promoted by Google.
 
-Each location weather forecast is self-contained in a fragment `WeatherForecastFragment`, responsible to request its data( weather forecast and reverse geocoding).
+Each location weather forecast is self-contained in a fragment `WeatherForecastFragment`. This Fragment requests its data( weather forecast and reverse geocoding).
 If the weather forecast were constantly updated, the references to this Fragment would be kept at the parent level(`MainActivity`) to coordinate.
 
 The coroutines/LiveData are a good replacement for RxJava's SingleObserver.
@@ -43,4 +45,4 @@ All the locations are hardcoded in `GlobalConstants.CITIES`
 ## 🎁 Licence
 This app is released under the [Apache License 2.0](https://github.com/raychenon/gray-sky-weather/blob/master/LICENSE).
 
-The [meanings of Apache License 2.0](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)
+You can read[the terms of Apache License 2.0 in simple English](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0))
