@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GraySky Weather</string>
     <string name="temperature_celsius_format">%.1f°C</string>
+    <string name="location_format">%s, %d km</string>
 </resources>

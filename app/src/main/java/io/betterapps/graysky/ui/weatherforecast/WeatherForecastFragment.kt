@@ -1,5 +1,6 @@
 package io.betterapps.graysky.ui.weatherforecast
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.betterapps.graysky.R
 import io.betterapps.graysky.data.coroutines.Resource
 import io.betterapps.graysky.data.coroutines.Status
-import io.betterapps.graysky.data.models.GeoLocation
+import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.models.WeatherByLocationResponse
 import io.betterapps.graysky.ui.adapter.HourlyWeatherAdapter
-import io.betterapps.graysky.ui.main.MainViewModel
 import kotlinx.android.synthetic.main.forecast_weather_fragment.*
 import org.junit.Assert.assertNotNull
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.util.Locale
 
 class WeatherForecastFragment : Fragment() {
 
@@ -26,11 +27,13 @@ class WeatherForecastFragment : Fragment() {
         const val ARG_LOCATION = "location_name"
         const val ARG_LATITUDE = "latitude"
         const val ARG_LONGITUDE = "longitude"
+        const val ARG_DISTANCE = "distance"
 
         fun newInstance(
             name: String,
             latitude: Double,
-            longitude: Double
+            longitude: Double,
+            distanceFromUserLocation: Double
         ): WeatherForecastFragment {
             val fragment = WeatherForecastFragment()
 
@@ -38,6 +41,7 @@ class WeatherForecastFragment : Fragment() {
                 putString(ARG_LOCATION, name)
                 putDouble(ARG_LATITUDE, latitude)
                 putDouble(ARG_LONGITUDE, longitude)
+                putDouble(ARG_DISTANCE, distanceFromUserLocation)
             }
 
             fragment.arguments = bundle
@@ -48,9 +52,10 @@ class WeatherForecastFragment : Fragment() {
 
     lateinit var locationName: String
     lateinit var geolocation: GeoLocation
+    var distanceFromUserLocation: Double = 0.0
 
-    // lazy inject MyViewModel
-    val mainViewModel: MainViewModel by viewModel()
+    // lazy inject
+    val weatherViewModel: WeatherViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +67,7 @@ class WeatherForecastFragment : Fragment() {
             arguments?.getDouble(ARG_LATITUDE)!!,
             arguments?.getDouble(ARG_LONGITUDE)!!
         )
+        distanceFromUserLocation = arguments?.getDouble(ARG_DISTANCE)!!
 
         return inflater.inflate(R.layout.forecast_weather_fragment, container, false)
     }
@@ -70,13 +76,14 @@ class WeatherForecastFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // since Koin DI is done at run time instead of compile time, better to check
-        assertNotNull(mainViewModel)
-        assertNotNull(mainViewModel.repository)
+        assertNotNull(weatherViewModel)
+        assertNotNull(weatherViewModel.repository)
         assertNotNull(locationName)
 
-        forcecast_weather_location_textview.text = locationName
 
-        mainViewModel.requestWeatherByLocation(geolocation)
+
+
+        weatherViewModel.requestWeatherByLocation(geolocation)
             .observe(
                 viewLifecycleOwner,
                 androidx.lifecycle.Observer {
@@ -85,6 +92,30 @@ class WeatherForecastFragment : Fragment() {
                     }
                 }
             )
+
+        // displayCityName(locationName, distanceFromUserLocation.toInt())
+        if (Geocoder.isPresent()) {
+            val geocoder = Geocoder(context, Locale.US)
+            Timber.i("Geocoder present")
+            weatherViewModel.requestCityName(geocoder, geolocation)
+                .observe(
+                    viewLifecycleOwner,
+                    androidx.lifecycle.Observer {
+                        it?.let { cityName ->
+                            Timber.i("Geocoder livedata received ${cityName}")
+                            displayCityName(cityName, distanceFromUserLocation.toInt())
+                        }
+                    }
+                )
+        } else {
+            displayCityName("No geocoder", distanceFromUserLocation.toInt())
+        }
+    }
+
+    private fun displayCityName(cityName: String, distanceFromUserLocation: Int) {
+        Timber.i("displayCityName $cityName $distanceFromUserLocation")
+        forecast_weather_location_textview.text =
+            getString(R.string.location_format, cityName, distanceFromUserLocation)
     }
 
     private fun processWeatherResults(
@@ -92,17 +123,18 @@ class WeatherForecastFragment : Fragment() {
     ) {
         when (resource.status) {
             Status.LOADING -> {
-                forcecast_weather_progressbar.visibility = View.VISIBLE
-                Timber.d("Weather LOADING")
+                forecast_weather_progressbar.visibility = View.VISIBLE
             }
             Status.SUCCESS -> {
-                forcecast_weather_progressbar.visibility = View.INVISIBLE
-                Timber.d("Weather Success ${resource.data}")
-                setupUI(response = resource.data!!)
+                forecast_weather_progressbar.visibility = View.INVISIBLE
+                forecast_weather_error_textview.visibility = View.GONE
+
+                resource.data?.let { setupUI(it) }
             }
             Status.ERROR -> {
-                forcecast_weather_progressbar.visibility = View.INVISIBLE
-                Timber.d("Weather ERROR")
+                forecast_weather_progressbar.visibility = View.INVISIBLE
+                forecast_weather_error_textview.visibility = View.VISIBLE
+                forecast_weather_error_textview.text = resource.message
             }
         }
     }
@@ -110,17 +142,16 @@ class WeatherForecastFragment : Fragment() {
     private fun setupUI(response: WeatherByLocationResponse) {
         // add divider
         val dividerItemDecoration = DividerItemDecoration(
-            forcecast_weather_recyclerview.context,
+            forecast_weather_recyclerview.context,
             LinearLayout.HORIZONTAL
         )
-        forcecast_weather_recyclerview.addItemDecoration(dividerItemDecoration)
-        // add divider
+        forecast_weather_recyclerview.addItemDecoration(dividerItemDecoration)
 
         val horizontalLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         val weatherAdapter = HourlyWeatherAdapter(response)
-        forcecast_weather_recyclerview.apply {
+        forecast_weather_recyclerview.apply {
             adapter = weatherAdapter
             layoutManager = horizontalLayoutManager
         }

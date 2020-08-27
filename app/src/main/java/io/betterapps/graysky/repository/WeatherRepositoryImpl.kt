@@ -1,7 +1,7 @@
 package io.betterapps.graysky.repository
 
 import io.betterapps.graysky.data.api.ApiHelper
-import io.betterapps.graysky.data.models.GeoLocation
+import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.models.WeatherByLocationResponse
 
 class WeatherRepositoryImpl(val apiHelper: ApiHelper, val cache: MutableMap<Any, Any>) :

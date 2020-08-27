@@ -1,7 +1,7 @@
 package io.betterapps.graysky.data.api
 
 import io.betterapps.graysky.const.GlobalConstants
-import io.betterapps.graysky.data.models.GeoLocation
+import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.network.OpenWeatherMapService
 
 class ApiHelper(private val openWeatherMapService: OpenWeatherMapService) {
