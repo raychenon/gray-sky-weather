@@ -95,7 +95,6 @@ class WeatherForecastFragment : Fragment() {
         } ?: run {
             if (Geocoder.isPresent()) {
                 val geocoder = Geocoder(context, Locale.US)
-                Timber.i("Geocoder present")
                 weatherViewModel.requestCityName(geocoder, geolocation)
                     .observe(
                         viewLifecycleOwner,
@@ -113,7 +112,6 @@ class WeatherForecastFragment : Fragment() {
     }
 
     private fun displayCityName(cityName: String, distanceFromUserLocation: Int) {
-        Timber.i("displayCityName $cityName $distanceFromUserLocation")
         forecast_weather_location_textview.text =
             getString(R.string.location_format, cityName, distanceFromUserLocation)
     }
