@@ -3,6 +3,7 @@ package io.betterapps.graysky.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import io.betterapps.graysky.WeatherMainConsts
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.domains.Location
 import io.betterapps.graysky.utils.distance
@@ -23,7 +24,7 @@ class MainViewModel : ViewModel() {
             list.sortBy { p -> p.second }
 
             val locationsSorted = mutableListOf<Location>()
-            locationsSorted.add(Location("current", currentGeoLocation, 0.0))
+            locationsSorted.add(Location(WeatherMainConsts.CURRENT, currentGeoLocation, 0.0))
             for (i in 0 until locations.size) {
                 val index = list[i].first
                 locationsSorted.add(locations[index].copy(distanceInKm = list[i].second))

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.betterapps.graysky.R
+import io.betterapps.graysky.WeatherMainConsts
 import io.betterapps.graysky.data.coroutines.Resource
 import io.betterapps.graysky.data.coroutines.Status
 import io.betterapps.graysky.data.domains.GeoLocation
@@ -90,22 +91,25 @@ class WeatherForecastFragment : Fragment() {
                 }
             )
 
-        // displayCityName(locationName, distanceFromUserLocation.toInt())
-        if (Geocoder.isPresent()) {
-            val geocoder = Geocoder(context, Locale.US)
-            Timber.i("Geocoder present")
-            weatherViewModel.requestCityName(geocoder, geolocation)
-                .observe(
-                    viewLifecycleOwner,
-                    androidx.lifecycle.Observer {
-                        it?.let { cityName ->
-                            Timber.i("Geocoder livedata received $cityName")
-                            displayCityName(cityName, distanceFromUserLocation.toInt())
-                        }
-                    }
-                )
+        if (!locationName.equals(WeatherMainConsts.CURRENT)) {
+            displayCityName(locationName, distanceFromUserLocation.toInt())
         } else {
-            displayCityName("No geocoder", distanceFromUserLocation.toInt())
+            if (Geocoder.isPresent()) {
+                val geocoder = Geocoder(context, Locale.US)
+                Timber.i("Geocoder present")
+                weatherViewModel.requestCityName(geocoder, geolocation)
+                    .observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer {
+                            it?.let { cityName ->
+                                Timber.i("Geocoder livedata received $cityName")
+                                displayCityName(cityName, distanceFromUserLocation.toInt())
+                            }
+                        }
+                    )
+            } else {
+                displayCityName("No geocoder", distanceFromUserLocation.toInt())
+            }
         }
     }
 
