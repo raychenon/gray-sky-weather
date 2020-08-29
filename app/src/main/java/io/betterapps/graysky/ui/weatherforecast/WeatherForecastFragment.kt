@@ -30,7 +30,7 @@ class WeatherForecastFragment : Fragment() {
         const val ARG_DISTANCE = "distance"
 
         fun newInstance(
-            name: String,
+            name: String?,
             latitude: Double,
             longitude: Double,
             distanceFromUserLocation: Double
@@ -50,9 +50,9 @@ class WeatherForecastFragment : Fragment() {
         }
     }
 
-    lateinit var locationName: String
     lateinit var geolocation: GeoLocation
     var distanceFromUserLocation: Double = 0.0
+    var locationName: String? = null
 
     // lazy inject
     val weatherViewModel: WeatherViewModel by viewModel()
@@ -62,7 +62,7 @@ class WeatherForecastFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        locationName = arguments?.getString(ARG_LOCATION)!!
+        locationName = arguments?.getString(ARG_LOCATION)
         geolocation = GeoLocation(
             arguments?.getDouble(ARG_LATITUDE)!!,
             arguments?.getDouble(ARG_LONGITUDE)!!
@@ -78,7 +78,7 @@ class WeatherForecastFragment : Fragment() {
         // since Koin DI is done at run time instead of compile time, better to check
         assertNotNull(weatherViewModel)
         assertNotNull(weatherViewModel.repository)
-        assertNotNull(locationName)
+        assertNotNull(geolocation)
 
         weatherViewModel.requestWeatherByLocation(geolocation)
             .observe(
@@ -90,27 +90,28 @@ class WeatherForecastFragment : Fragment() {
                 }
             )
 
-        // displayCityName(locationName, distanceFromUserLocation.toInt())
-        if (Geocoder.isPresent()) {
-            val geocoder = Geocoder(context, Locale.US)
-            Timber.i("Geocoder present")
-            weatherViewModel.requestCityName(geocoder, geolocation)
-                .observe(
-                    viewLifecycleOwner,
-                    androidx.lifecycle.Observer {
-                        it?.let { cityName ->
-                            Timber.i("Geocoder livedata received $cityName")
-                            displayCityName(cityName, distanceFromUserLocation.toInt())
+        locationName?.let {
+            displayCityName(it, distanceFromUserLocation.toInt())
+        } ?: run {
+            if (Geocoder.isPresent()) {
+                val geocoder = Geocoder(context, Locale.US)
+                weatherViewModel.requestCityName(geocoder, geolocation)
+                    .observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer {
+                            it?.let { cityName ->
+                                Timber.i("Geocoder livedata received $cityName")
+                                displayCityName(cityName, distanceFromUserLocation.toInt())
+                            }
                         }
-                    }
-                )
-        } else {
-            displayCityName("No geocoder", distanceFromUserLocation.toInt())
+                    )
+            } else {
+                displayCityName("No geocoder", distanceFromUserLocation.toInt())
+            }
         }
     }
 
     private fun displayCityName(cityName: String, distanceFromUserLocation: Int) {
-        Timber.i("displayCityName $cityName $distanceFromUserLocation")
         forecast_weather_location_textview.text =
             getString(R.string.location_format, cityName, distanceFromUserLocation)
     }
