@@ -16,7 +16,6 @@ import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.models.WeatherByLocationResponse
 import io.betterapps.graysky.ui.adapter.HourlyWeatherAdapter
 import kotlinx.android.synthetic.main.forecast_weather_fragment.*
-import org.junit.Assert.assertNotNull
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.util.Locale
@@ -75,10 +74,10 @@ class WeatherForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // since Koin DI is done at run time instead of compile time, better to check
-        assertNotNull(weatherViewModel)
-        assertNotNull(weatherViewModel.repository)
-        assertNotNull(geolocation)
+        val errorMessage = { "since Koin DI is done at run time instead of compile time, better to check" }
+        checkNotNull(weatherViewModel, errorMessage)
+        checkNotNull(weatherViewModel.repository, errorMessage)
+        checkNotNull(geolocation, errorMessage)
 
         weatherViewModel.requestWeatherByLocation(geolocation)
             .observe(
