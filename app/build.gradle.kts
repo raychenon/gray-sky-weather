@@ -45,28 +45,29 @@ val ktlint by configurations.creating
 
 dependencies {
 
-    //implementation(fileTree(dir = "libs", include: listOf("*.jar")))
-    implementation(kotlin("stdlib", "_"))
-    implementation("androidx.core:core-ktx:_")
-    implementation("androidx.appcompat:appcompat:_")
-    implementation("androidx.constraintlayout:constraintlayout:_")
-    implementation("androidx.lifecycle:lifecycle-extensions:_")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:_")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:_")
-    implementation("androidx.recyclerview:recyclerview:_")
+    implementation(Kotlin.stdlib.jdk8)
+    implementation(AndroidX.core.ktx)
+    implementation(AndroidX.appCompat)
+    implementation(AndroidX.constraintLayout)
+    implementation(AndroidX.lifecycle.extensions)
+    implementation(AndroidX.lifecycle.viewModelKtx)
+    implementation(AndroidX.lifecycle.liveDataKtx)
+    implementation(AndroidX.recyclerView) //"androidx.recyclerview:recyclerview:_")
     // For control over item selection of both touch and mouse driven selection
+    // implementation(AndroidX.recyclerViewSelection) TODO: 1.1.0 does not exist
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0-rc01")
 
-    // network
-    implementation("com.squareup.retrofit2:retrofit:_")
-    implementation("com.squareup.okhttp3:okhttp:_")
-    implementation("com.squareup.retrofit2:converter-gson:_")
-    implementation("com.google.code.gson:gson:_")
 
-    implementation("com.squareup.picasso:picasso:_")
+    // network
+    implementation(Square.retrofit2.retrofit)
+    implementation(Square.okHttp3.okHttp)
+    implementation(Square.retrofit2.converter.gson)
+    implementation("com.google.code.gson:gson:_") // TODO
+
+    implementation(Square.picasso)
 
     // Koin for Android
-    implementation("org.koin:koin-android:_")
+    implementation("org.koin:koin-android:_") // TODO add koin
     // or Koin for Lifecycle scoping
     implementation("org.koin:koin-android-scope:_")
     // or Koin for Android Architecture ViewModel
@@ -75,26 +76,25 @@ dependencies {
 //    implementation("org.koin:koin-androidx-ext:$koin_version")
 
     // log
-    implementation("com.jakewharton.timber:timber:_")
+    implementation(JakeWharton.timber)
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:_")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:_")
+    implementation(KotlinX.coroutines.core)
+    implementation(KotlinX.coroutines.android)
 
-    implementation("com.google.firebase:firebase-analytics:_")
+    implementation("com.google.firebase:firebase-analytics:17.5.0")
+    // implementation(Google.firebase.analytics) // TODO does not work
 
-    implementation("junit:junit:_")
-
-    testImplementation("junit:junit:_")
+    testImplementation(Testing.junit4)
     testImplementation("org.koin:koin-test:_")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:_")
+    testImplementation(Testing.mockito.kotlin)
 
     // testImplementation(for pure JVM unit tests)
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:_")
-    testImplementation("androidx.arch.core:core-testing:_")
+    testImplementation(KotlinX.coroutines.test)
+    testImplementation(AndroidX.archCore.testing)
 
-    androidTestImplementation("androidx.test.ext:junit:_")
-    androidTestImplementation("androidx.test.espresso:espresso-core:_")
+    androidTestImplementation(AndroidX.test.ext.junit)
+    androidTestImplementation(AndroidX.test.espresso.core)
 
     ktlint("com.pinterest:ktlint:0.38.1")
 }

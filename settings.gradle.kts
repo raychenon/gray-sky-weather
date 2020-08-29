@@ -1,10 +1,11 @@
 import de.fayard.refreshVersions.bootstrapRefreshVersions
 
 buildscript {
+    val useSnapshot = false
     repositories { mavenLocal() ; gradlePluginPortal() }
     dependencies.classpath(
-        "de.fayard.refreshVersions:refreshVersions:0.9.5"
-        //"de.fayard.refreshVersions:refreshVersions:0.9.6-SNAPSHOT"
+        if (useSnapshot) "de.fayard.refreshVersions:refreshVersions:0.9.6-SNAPSHOT" else "de.fayard.refreshVersions:refreshVersions:0.9.5"
+
     )
 }
 
