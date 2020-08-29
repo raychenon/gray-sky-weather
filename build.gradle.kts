@@ -20,21 +20,18 @@ buildscript {
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.4.0"
+    id( "org.jlleitschuh.gradle.ktlint") version "9.3.0"
 }
 
 
 subprojects {
-    /**
     apply(plugin = "org.jlleitschuh.gradle.ktlint") // Version should be inherited from parent
 
     // Optionally configure plugin
-
     ktlint {
-        debug = true
+        debug.set(true)
     }
-    **/
 }
-
 allprojects {
     repositories {
         google()
