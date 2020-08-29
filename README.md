@@ -30,7 +30,7 @@ The coroutines/LiveData are a good replacement for RxJava's SingleObserver.
 Clone this project
 >git clone https://github.com/raychenon/gray-sky-weather.git
 
-Open in [Android Studio](https://developer.android.com/studio) the file `build.gradle` (the one at root folder).
+Open in [Android Studio](https://developer.android.com/studio) the file `build.gradle.kts` (the one at root folder).
 
 Build & Run 🔥
 
