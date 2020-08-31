@@ -75,6 +75,7 @@ dependencies {
     // Koin AndroidX Experimental features
 //    implementation("org.koin:koin-androidx-ext:$koin_version")
 
+    implementation ("com.github.GrenderG:Toasty:1.5.0")
     // log
     implementation(JakeWharton.timber)
 
@@ -83,6 +84,7 @@ dependencies {
     implementation(KotlinX.coroutines.android)
 
     implementation("com.google.firebase:firebase-analytics:17.5.0")
+    implementation("com.google.android.gms:play-services-location:17.0.0")
     // implementation(Google.firebase.analytics) // TODO does not work
 
     testImplementation(Testing.junit4)

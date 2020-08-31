@@ -17,7 +17,7 @@ buildscript {
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    id( "org.jlleitschuh.gradle.ktlint")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 subprojects {
@@ -32,5 +32,6 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven(url = "https://jitpack.io")
     }
 }
