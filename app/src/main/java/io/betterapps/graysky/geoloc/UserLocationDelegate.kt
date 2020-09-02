@@ -21,7 +21,7 @@ class UserLocationDelegate {
     fun requestPermissions(showRationale: () -> Unit) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 activity,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             )
         ) {
             // Provide an additional rationale to the user. This would happen if the user denied the
@@ -43,19 +43,19 @@ class UserLocationDelegate {
     fun checkPermissions() =
         ActivityCompat.checkSelfPermission(
             context,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
     fun startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(
             activity,
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             REQUEST_PERMISSIONS_REQUEST_CODE
         )
     }
 
     private fun requestPermission() {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
         } else {
