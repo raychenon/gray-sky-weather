@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
+
 import org.jlleitschuh.gradle.ktlint.KtlintCheckTask
 
 plugins {
@@ -22,7 +22,7 @@ android {
     }
 
     buildTypes {
-        named("release"){
+        named("release") {
             isMinifyEnabled = false
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
@@ -52,11 +52,10 @@ dependencies {
     implementation(AndroidX.lifecycle.extensions)
     implementation(AndroidX.lifecycle.viewModelKtx)
     implementation(AndroidX.lifecycle.liveDataKtx)
-    implementation(AndroidX.recyclerView) //"androidx.recyclerview:recyclerview:_")
+    implementation(AndroidX.recyclerView) // "androidx.recyclerview:recyclerview:_")
     // For control over item selection of both touch and mouse driven selection
     // implementation(AndroidX.recyclerViewSelection) TODO: 1.1.0 does not exist
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0-rc01")
-
 
     // network
     implementation(Square.retrofit2.retrofit)
@@ -75,7 +74,7 @@ dependencies {
     // Koin AndroidX Experimental features
 //    implementation("org.koin:koin-androidx-ext:$koin_version")
 
-    implementation ("com.github.GrenderG:Toasty:1.5.0")
+    implementation("com.github.GrenderG:Toasty:1.5.0")
     // log
     implementation(JakeWharton.timber)
 
