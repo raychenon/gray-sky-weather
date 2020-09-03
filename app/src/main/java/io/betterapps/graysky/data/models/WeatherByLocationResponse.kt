@@ -2,6 +2,9 @@ package io.betterapps.graysky.data.models
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * https://openweathermap.org/api/one-call-api
+ */
 data class WeatherByLocationResponse(
     @SerializedName("timezone") val timezone: String,
     // timezone_offset: Shift in seconds from UTC
