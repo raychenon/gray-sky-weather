@@ -11,6 +11,7 @@ data class WeatherUnit(
     @SerializedName("feels_like") val feelsLikeTemperature: Float,
     @SerializedName("humidity") val humidity: Int,
     @SerializedName("clouds") val clouds: Int,
+    @SerializedName("rain") val rain: RainUnit?,
     @SerializedName("weather") val weathers: List<WeatherDesc>
 ) {
 

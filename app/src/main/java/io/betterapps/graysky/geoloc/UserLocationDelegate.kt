@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
-import io.betterapps.graysky.data.domains.GeoLocation
 import timber.log.Timber
 
 class UserLocationDelegate {
