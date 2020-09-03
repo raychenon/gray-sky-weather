@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import io.betterapps.graysky.data.domains.GeoLocation
 import timber.log.Timber
 
 class UserLocationDelegate {
@@ -55,12 +55,7 @@ class UserLocationDelegate {
      * Return the current state of the permissions needed.
      */
     fun checkLocationPermission(context: Context?): Boolean {
-        return (
-            ActivityCompat.checkSelfPermission(
-                context!!,
-                MANIFEST_ACCESS_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-            )
+        return (ActivityCompat.checkSelfPermission(context!!, MANIFEST_ACCESS_LOCATION) == PackageManager.PERMISSION_GRANTED)
     }
 
     fun onRequestPermissionsResultDelete(
@@ -90,15 +85,6 @@ class UserLocationDelegate {
             arrayOf(MANIFEST_ACCESS_LOCATION),
             REQUEST_PERMISSIONS_REQUEST_CODE
         )
-    }
-
-    private fun requestPermission() {
-        if (ContextCompat.checkSelfPermission(context, MANIFEST_ACCESS_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-        } else {
-            // Show rationale and request permission.
-        }
     }
 }
 
