@@ -10,6 +10,7 @@ import timber.log.Timber
 
 class UserLocationDelegate {
     val REQUEST_PERMISSIONS_REQUEST_CODE = 35
+    val MANIFEST_ACCESS_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
     var context: Context
     var activity: Activity
 
@@ -21,7 +22,7 @@ class UserLocationDelegate {
     fun requestPermissions(showRationale: () -> Unit) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 activity,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                MANIFEST_ACCESS_LOCATION
             )
         ) {
             // Provide an additional rationale to the user. This would happen if the user denied the
@@ -43,23 +44,48 @@ class UserLocationDelegate {
     fun checkPermissions() =
         ActivityCompat.checkSelfPermission(
             context,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            MANIFEST_ACCESS_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
-    fun startLocationPermissionRequest() {
+
+    fun onRequestPermissionsResultDelete(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray,
+        getLastLocation: () -> Unit
+    ) {
+        Timber.i("onRequestPermissionResult")
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            when {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                grantResults.isEmpty() -> Timber.i("User interaction was cancelled.")
+
+                // Permission granted.
+                (grantResults[0] == PackageManager.PERMISSION_GRANTED) -> getLastLocation()
+            }
+        }
+    }
+
+    private fun startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(
             activity,
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(MANIFEST_ACCESS_LOCATION),
             REQUEST_PERMISSIONS_REQUEST_CODE
         )
     }
 
     private fun requestPermission() {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(context, MANIFEST_ACCESS_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
         } else {
             // Show rationale and request permission.
         }
     }
+}
+
+
+class OnLocationFoundListener(val geolocationListener: () -> Unit) {
+    fun onGeolocationFound() = geolocationListener()
 }
