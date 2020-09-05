@@ -1,5 +1,7 @@
 package io.betterapps.graysky
 
+import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
@@ -22,14 +24,31 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var userLocationDelegate: UserLocationDelegate
 
+    companion object {
+        private val BUNDLE_GEOLOC = "GEOLOC_EXTRA"
+
+        fun createIntent(context: Context, geolocEnabled: Boolean): Intent {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra(BUNDLE_GEOLOC, geolocEnabled)
+            return intent
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        userLocationDelegate = UserLocationDelegate(this, this)
-
         setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            launchPermission()
+        val extras = intent.extras
+        extras?.let {
+            val enabled = it.getBoolean(BUNDLE_GEOLOC)
+            if (enabled) {
+                userLocationDelegate = UserLocationDelegate(this, this)
+                if (savedInstanceState == null) {
+                    launchPermission()
+                }
+            } else {
+                displayWeatherFromLocations(GlobalConstants.USER_LOCATION)
+            }
         }
     }
 
@@ -56,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             userLocationDelegate.getLastLocation(
                 GeolocationListener { loc ->
-                    displayWeatherFromLocations(loc)
+                    displayWeatherFromLocations(location2Geolocation(loc))
                 }
             )
         }
@@ -66,11 +85,8 @@ class MainActivity : AppCompatActivity() {
         Toasty.error(this, R.string.permission_rationale, Toast.LENGTH_SHORT, true).show()
     }
 
-    private fun displayWeatherFromLocations(currentUserlocation: Location) {
-        mainViewModel.sortByDistance(
-            GeoLocation(currentUserlocation.latitude, currentUserlocation.longitude),
-            GlobalConstants.CITIES
-        )
+    private fun displayWeatherFromLocations(currentUserlocation: GeoLocation) {
+        mainViewModel.sortByDistance(currentUserlocation, GlobalConstants.CITIES)
             .observe(
                 this,
                 androidx.lifecycle.Observer {
@@ -82,6 +98,9 @@ class MainActivity : AppCompatActivity() {
                 }
             )
     }
+
+    private fun location2Geolocation(location: Location): GeoLocation =
+        GeoLocation(location.latitude, location.longitude)
 
     /**
      * Callback received when a permissions request has been completed.
@@ -96,7 +115,7 @@ class MainActivity : AppCompatActivity() {
             requestCode,
             permissions,
             grantResults,
-            GeolocationListener { loc -> displayWeatherFromLocations(loc) }
+            GeolocationListener { loc -> displayWeatherFromLocations(location2Geolocation(loc)) }
         )
     }
 }

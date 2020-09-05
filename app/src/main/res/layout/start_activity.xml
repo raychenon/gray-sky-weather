@@ -25,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:enabled="false"
         android:text="@string/start_allow_geolocation"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +38,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:enabled="false"
         android:text="@string/start_no_geolocation"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,5 +45,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/start_geolocation_button"
         app:layout_constraintVertical_bias="0.2" />
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>
