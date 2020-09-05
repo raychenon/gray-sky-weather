@@ -5,6 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/weather_background"
     tools:context=".ui.start.StartActivity">
 
     <TextView
@@ -16,6 +17,8 @@
         android:layout_marginEnd="24dp"
         android:selectAllOnFocus="true"
         android:text="@string/start_permissions"
+        android:textColor="@color/white"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +30,8 @@
         android:layout_gravity="start"
         android:text="@string/start_allow_geolocation"
         android:textAllCaps="false"
+        android:textSize="25sp"
+        android:textColor="@color/blue_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +45,8 @@
         android:layout_gravity="start"
         android:text="@string/start_no_geolocation"
         android:textAllCaps="false"
+        android:textSize="25sp"
+        android:textColor="@color/blue_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
