@@ -4,4 +4,7 @@
     <string name="location_format">%s, %d km</string>
     <string name="rain_volume_format">rain: \n%.2f mm</string>
     <string name="permission_rationale">Location permission is needed for Weather in your area</string>
+    <string name="start_permissions">In order to show your current location\'s weather, we need to access your location permission. Of course, you are free to disagree and you can another location.</string>
+    <string name="start_allow_geolocation">Enable geolocation.</string>
+    <string name="start_no_geolocation">Select a city. No geolocation.</string>
 </resources>
