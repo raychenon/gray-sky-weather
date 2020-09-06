@@ -31,7 +31,7 @@ class WeatherRepositoryTest {
         // mockApiHelper = mock(ApiHelper::class.java)
 
         val entry = GeoLocation(48.8534, 2.3488)
-        val weatherUnit = WeatherUnit(1598454000, 18.13f, 12.59f, 72, 75, emptyList())
+        val weatherUnit = WeatherUnit(1598454000, 18.13f, 12.59f, 72, 75, null, emptyList())
         val response =
             WeatherByLocationResponse("", -25200L, weatherUnit, listOf(weatherUnit), emptyList())
 

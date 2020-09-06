@@ -37,7 +37,7 @@ class WeatherViewModel(val repository: WeatherRepository) : ViewModel() {
             val addresses = geocoder.getFromLocation(geoLocation.latitude, geoLocation.longitude, 1)
             Timber.d("Geocoder try $addresses")
             if (addresses != null && addresses.size > 0) {
-                val cityName = addresses[0].locality
+                val cityName = addresses[0].getAddressLine(0)
                 cityName?.let { emit(it) } ?: emit("error")
             } else {
                 emit("No found")

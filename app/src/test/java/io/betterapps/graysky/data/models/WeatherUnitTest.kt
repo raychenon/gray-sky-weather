@@ -5,7 +5,7 @@ import org.junit.Test
 
 class WeatherUnitTest {
 
-    val weatherUnit = WeatherUnit(1598454000, 18.13f, 12.59f, 72, 75, emptyList())
+    val weatherUnit = WeatherUnit(1598454000, 18.13f, 12.59f, 72, 75, RainUnit(0.3f), emptyList())
 
     @Test
     fun actualLocalTimeTest() {
