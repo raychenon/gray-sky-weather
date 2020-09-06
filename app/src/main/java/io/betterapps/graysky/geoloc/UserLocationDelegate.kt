@@ -45,15 +45,28 @@ class UserLocationDelegate {
         }
     }
 
-    fun getLastLocation(geoListener: (loc: Location) -> Unit) {
+    /**
+     * use last location instead of listening to updates of location (no spying)
+     * https://developer.android.com/training/location/retrieve-current
+     */
+    fun getLastLocation(geoListener: (loc: Location?) -> Unit) {
         checkLocationPermission(context)
         Timber.i("getLastLocation ")
         // TODO on emulator , last location is null
+        if (fusedLocationClient?.lastLocation == null) {
+            Timber.i("getLastLocation null ")
+            geoListener(null)
+            return
+        }
+
         fusedLocationClient?.lastLocation
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful && task.result != null) {
                     // Got last known location. In some rare situations this can be null.
                     task?.result?.let { it -> geoListener(it) }
+                } else {
+                    Timber.i("getLastLocation task null")
+                    geoListener(null)
                 }
             }
     }
@@ -69,7 +82,7 @@ class UserLocationDelegate {
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray,
-        geoListener: (loc: Location) -> Unit
+        geoListener: (loc: Location?) -> Unit
     ) {
         Timber.i("onRequestPermissionResult")
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {

@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             userLocationDelegate.getLastLocation(
                 { loc ->
-                    displayWeatherFromLocations(location2Geolocation(loc))
+                    displayWeatherOrError(loc)
                 }
             )
         }
@@ -82,6 +82,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun showRationale() {
         Toasty.error(this, R.string.permission_rationale, Toast.LENGTH_SHORT, true).show()
+    }
+
+    private fun showErrorLastLocation() {
+        Toasty.error(this, R.string.permission_last_location_not_found, Toast.LENGTH_LONG, true).show()
+    }
+
+    private fun displayWeatherOrError(location: Location?) {
+
+        location?.let {
+            displayWeatherFromLocations(location2Geolocation(it))
+        } ?: run {
+            showErrorLastLocation()
+        }
     }
 
     private fun displayWeatherFromLocations(currentUserlocation: GeoLocation) {
@@ -114,7 +127,7 @@ class MainActivity : AppCompatActivity() {
             requestCode,
             permissions,
             grantResults,
-            { loc -> displayWeatherFromLocations(location2Geolocation(loc)) }
+            { loc -> displayWeatherOrError(loc) }
         )
     }
 }
