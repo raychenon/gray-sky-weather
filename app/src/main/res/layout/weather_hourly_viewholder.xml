@@ -15,21 +15,21 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/weather_hour_real_temp_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="25 C"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_hour_time_textview" />
-
     <ImageView
         android:id="@+id/weather_icon_imageview"
         android:layout_width="@dimen/weather_icon_height"
         android:layout_height="@dimen/weather_icon_height"
         android:layout_gravity="center_horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_hour_real_temp_textview" />
+        app:layout_constraintTop_toBottomOf="@id/weather_hour_time_textview" />
+
+    <TextView
+        android:id="@+id/weather_hour_real_temp_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="25 C"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_icon_imageview" />
 
     <TextView
         android:id="@+id/weather_hour_rain_textview"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:text="rain: "
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_icon_imageview" />
+        app:layout_constraintTop_toBottomOf="@id/weather_hour_real_temp_textview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,17 +9,25 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import timber.log.Timber
 
+/**
+ * self contained class to get location permission and the user current location
+ */
 class UserLocationDelegate {
-    val REQUEST_PERMISSIONS_REQUEST_CODE = 35
-    val MANIFEST_ACCESS_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
-    var context: Context
-    var activity: Activity
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    constructor(context: Context, activity: Activity) {
-        this.context = context
+    companion object {
+        val REQUEST_PERMISSIONS_REQUEST_CODE = 35
+    }
+
+    val MANIFEST_ACCESS_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
+
+    private val context: Context
+    private val activity: Activity
+    private val fusedLocationClient: FusedLocationProviderClient
+
+    constructor(activity: Activity) {
         this.activity = activity
-        fusedLocationClient = FusedLocationProviderClient(context)
+        this.context = activity as Context
+        fusedLocationClient = FusedLocationProviderClient(activity)
     }
 
     fun requestPermissions(showRationale: () -> Unit) {
@@ -37,15 +45,28 @@ class UserLocationDelegate {
         }
     }
 
-    fun getLastLocation(geoListener: GeolocationListener) {
+    /**
+     * use last location instead of listening to updates of location (no spying)
+     * https://developer.android.com/training/location/retrieve-current
+     */
+    fun getLastLocation(geoListener: (loc: Location?) -> Unit) {
         checkLocationPermission(context)
+        Timber.i("getLastLocation ")
+        // TODO on emulator , last location is null
+        if (fusedLocationClient?.lastLocation == null) {
+            Timber.i("getLastLocation null ")
+            geoListener(null)
+            return
+        }
+
         fusedLocationClient?.lastLocation
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful && task.result != null) {
                     // Got last known location. In some rare situations this can be null.
-                    task?.result?.let { it ->
-                        geoListener.onLocated(it)
-                    }
+                    task?.result?.let { it -> geoListener(it) }
+                } else {
+                    Timber.i("getLastLocation task null")
+                    geoListener(null)
                 }
             }
     }
@@ -61,19 +82,17 @@ class UserLocationDelegate {
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray,
-        geoListener: GeolocationListener
+        geoListener: (loc: Location?) -> Unit
     ) {
         Timber.i("onRequestPermissionResult")
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            when {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+                getLastLocation(geoListener)
+            } else {
                 // If user interaction was interrupted, the permission request is cancelled and you
                 // receive empty arrays.
-                grantResults.isEmpty() -> Timber.i("User interaction was cancelled.")
-
-                // Permission granted.
-                (grantResults[0] == PackageManager.PERMISSION_GRANTED) -> {
-                    getLastLocation(geoListener)
-                }
+                Timber.i("User interaction was cancelled.")
             }
         }
     }
@@ -85,8 +104,4 @@ class UserLocationDelegate {
             REQUEST_PERMISSIONS_REQUEST_CODE
         )
     }
-}
-
-class GeolocationListener(val geoListener: (loc: Location) -> Unit) {
-    fun onLocated(loc: Location) = geoListener(loc)
 }
