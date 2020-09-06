@@ -25,13 +25,10 @@
 
     <Button
         android:id="@+id/start_geolocation_button"
+        style="@style/ButtonStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
         android:text="@string/start_allow_geolocation"
-        android:textAllCaps="false"
-        android:textSize="25sp"
-        android:textColor="@color/blue_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,13 +37,10 @@
 
     <Button
         android:id="@+id/start_no_location_button"
+        style="@style/ButtonStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
         android:text="@string/start_no_geolocation"
-        android:textAllCaps="false"
-        android:textSize="25sp"
-        android:textColor="@color/blue_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

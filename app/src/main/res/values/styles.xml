@@ -7,4 +7,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="ButtonStart">
+        <item name="android:layout_gravity">start</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/blue_button</item>
+        <item name="android:padding">@dimen/button_padding</item>
+    </style>
+
 </resources>
