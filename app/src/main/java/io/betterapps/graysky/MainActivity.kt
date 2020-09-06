@@ -10,7 +10,6 @@ import es.dmoral.toasty.Toasty
 import io.betterapps.graysky.const.GlobalConstants
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.domains.LocationName
-import io.betterapps.graysky.geoloc.GeolocationListener
 import io.betterapps.graysky.geoloc.UserLocationDelegate
 import io.betterapps.graysky.ui.main.MainViewModel
 import io.betterapps.graysky.ui.weatherforecast.WeatherForecastFragment
@@ -42,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         extras?.let {
             val enabled = it.getBoolean(BUNDLE_GEOLOC)
             if (enabled) {
-                userLocationDelegate = UserLocationDelegate(this, this)
+                userLocationDelegate = UserLocationDelegate(this)
                 if (savedInstanceState == null) {
                     launchPermission()
                 }
@@ -74,8 +73,8 @@ class MainActivity : AppCompatActivity() {
             userLocationDelegate.requestPermissions(::showRationale)
         } else {
             userLocationDelegate.getLastLocation(
-                GeolocationListener { loc ->
-                    displayWeatherFromLocations(location2Geolocation(loc))
+                { loc ->
+                    displayWeatherOrError(loc)
                 }
             )
         }
@@ -83,6 +82,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun showRationale() {
         Toasty.error(this, R.string.permission_rationale, Toast.LENGTH_SHORT, true).show()
+    }
+
+    private fun showErrorLastLocation() {
+        Toasty.error(this, R.string.permission_last_location_not_found, Toast.LENGTH_LONG, true).show()
+    }
+
+    private fun displayWeatherOrError(location: Location?) {
+
+        location?.let {
+            displayWeatherFromLocations(location2Geolocation(it))
+        } ?: run {
+            showErrorLastLocation()
+        }
     }
 
     private fun displayWeatherFromLocations(currentUserlocation: GeoLocation) {
@@ -115,7 +127,7 @@ class MainActivity : AppCompatActivity() {
             requestCode,
             permissions,
             grantResults,
-            GeolocationListener { loc -> displayWeatherFromLocations(location2Geolocation(loc)) }
+            { loc -> displayWeatherOrError(loc) }
         )
     }
 }
