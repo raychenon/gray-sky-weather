@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         extras?.let {
             val enabled = it.getBoolean(BUNDLE_GEOLOC)
             if (enabled) {
-                userLocationDelegate = UserLocationDelegate(this, this)
+                userLocationDelegate = UserLocationDelegate(this)
                 if (savedInstanceState == null) {
                     launchPermission()
                 }

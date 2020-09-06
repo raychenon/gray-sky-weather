@@ -13,17 +13,21 @@ import timber.log.Timber
  * self contained class to get location permission and the user current location
  */
 class UserLocationDelegate {
-    val REQUEST_PERMISSIONS_REQUEST_CODE = 35
+
+    companion object {
+        val REQUEST_PERMISSIONS_REQUEST_CODE = 35
+    }
+
     val MANIFEST_ACCESS_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
 
     private val context: Context
     private val activity: Activity
     private val fusedLocationClient: FusedLocationProviderClient
 
-    constructor(context: Context, activity: Activity) {
-        this.context = context
+    constructor(activity: Activity) {
         this.activity = activity
-        fusedLocationClient = FusedLocationProviderClient(context)
+        this.context = activity as Context
+        fusedLocationClient = FusedLocationProviderClient(activity)
     }
 
     fun requestPermissions(showRationale: () -> Unit) {
@@ -43,6 +47,8 @@ class UserLocationDelegate {
 
     fun getLastLocation(geoListener: (loc: Location) -> Unit) {
         checkLocationPermission(context)
+        Timber.i("getLastLocation ")
+        // TODO on emulator , last location is null
         fusedLocationClient?.lastLocation
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful && task.result != null) {
