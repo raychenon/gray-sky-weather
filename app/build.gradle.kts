@@ -78,13 +78,16 @@ dependencies {
     // log
     implementation(JakeWharton.timber)
 
+    // Google API places
+    implementation("com.google.android.libraries.places:places:1.1.0")
+
     // Coroutines
     implementation(KotlinX.coroutines.core)
     implementation(KotlinX.coroutines.android)
 
     implementation("com.google.firebase:firebase-analytics:17.5.0")
     implementation("com.google.android.gms:play-services-location:17.0.0")
-    // implementation(Google.firebase.analytics) // TODO does not work
+    implementation(Google.firebase.analytics) // TODO does not work
 
     testImplementation(Testing.junit4)
     testImplementation("org.koin:koin-test:_")

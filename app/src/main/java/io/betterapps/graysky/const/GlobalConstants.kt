@@ -10,6 +10,8 @@ object GlobalConstants {
     const val API_ID = "3e20bab8cf7b31f1aadb98d108f23153"
     // const val API_ID = "123ecab62dd22e2ba983c28b73c630cb" // 2nd key, if you reached the limit
 
+    const val MAPBOX_API = "pk.eyJ1IjoicmF5bW9uZC1jaGVub24tYXJiZWl0IiwiYSI6ImNrZXIyZHZ1YTQ5YXoyemx0c3FjYWRrbG8ifQ.o3-GihSAvLkNSTH2ENk1Cw"
+
     val CITIES = listOf<LocationName>(
         LocationName("Paris", GeoLocation(48.8534, 2.3488)),
         LocationName("Gravelines", GeoLocation(50.9833, 2.1167)),
