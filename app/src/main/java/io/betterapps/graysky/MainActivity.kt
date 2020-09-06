@@ -10,7 +10,6 @@ import es.dmoral.toasty.Toasty
 import io.betterapps.graysky.const.GlobalConstants
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.domains.LocationName
-import io.betterapps.graysky.geoloc.GeolocationListener
 import io.betterapps.graysky.geoloc.UserLocationDelegate
 import io.betterapps.graysky.ui.main.MainViewModel
 import io.betterapps.graysky.ui.weatherforecast.WeatherForecastFragment
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             userLocationDelegate.requestPermissions(::showRationale)
         } else {
             userLocationDelegate.getLastLocation(
-                GeolocationListener { loc ->
+                { loc ->
                     displayWeatherFromLocations(location2Geolocation(loc))
                 }
             )
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             requestCode,
             permissions,
             grantResults,
-            GeolocationListener { loc -> displayWeatherFromLocations(location2Geolocation(loc)) }
+            { loc -> displayWeatherFromLocations(location2Geolocation(loc)) }
         )
     }
 }
