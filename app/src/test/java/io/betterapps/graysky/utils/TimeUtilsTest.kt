@@ -8,18 +8,18 @@ class TimeUtilsTest {
     @Test
     fun timezoneNewYorkTest() {
         val timestamp = 1598464458L
-        val timeOffset = -14400
+        val timeOffset = -14400L
         Assert.assertEquals(
             "2020-08-26T13:54:18",
-            TimeUtils.formatLocalTime(timestamp, "yyyy-MM-dd'T'HH:mm:ss", timeOffset)
+            TimeUtils.formatLocalTime(timestamp, "yyyy-MM-dd'T'HH:mm:ss", timeOffset = timeOffset)
         )
         Assert.assertEquals(
             "13:54",
-            TimeUtils.formatLocalTime(timestamp, timeOffset)
+            TimeUtils.formatLocalTime(timestamp, timeOffset = timeOffset)
         )
         Assert.assertEquals(
             13,
-            TimeUtils.hourLocalTime(timestamp, timeOffset)
+            TimeUtils.hourLocalTime(timestamp, timeOffset = timeOffset)
         )
     }
 
@@ -37,7 +37,7 @@ class TimeUtilsTest {
         )
         Assert.assertEquals(
             11,
-            TimeUtils.hourLocalTime(timestamp,timeOffset)
+            TimeUtils.hourLocalTime(timestamp, timeOffset)
         )
     }
 }

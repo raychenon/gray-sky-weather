@@ -37,7 +37,7 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         realTempTextView.text = formatTemperature(item.temperature)
         item.rain?.let {
             rainTextView.visibility = View.VISIBLE
-            // todo find a better a wording
+            // todo find a better a wording for rain
             rainTextView.text =
                 getString(R.string.rain_volume_format, it.precipitationVolumeForecast1h)
         } ?: run {
@@ -47,6 +47,7 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
 
         if (item.isBeforeNewDay(timezoneOffset)) {
             dateTextView.visibility = View.VISIBLE
+            dateTextView.text = item.formatDay(timezoneOffset)
         } else {
             dateTextView.visibility = View.GONE
         }
