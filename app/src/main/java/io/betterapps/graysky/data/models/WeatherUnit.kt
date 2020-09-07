@@ -42,7 +42,7 @@ data class WeatherUnit(
         return TimeUtils.hourLocalTime(dateTime, timeOffset) >= 23
     }
 
-    fun formatDay(timeOffset: Long = 0): String {
+    fun formatNextDay(timeOffset: Long = 0): String {
         return TimeUtils.formatNextDay(dateTime, timeOffset)
     }
 }

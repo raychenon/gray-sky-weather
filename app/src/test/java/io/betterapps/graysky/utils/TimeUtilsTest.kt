@@ -39,5 +39,11 @@ class TimeUtilsTest {
             11,
             TimeUtils.hourLocalTime(timestamp, timeOffset)
         )
+        Assert.assertEquals(
+            "Thu\n" +
+                "27\n" +
+                "Aug",
+            TimeUtils.formatNextDay(timestamp, timeOffset)
+        )
     }
 }

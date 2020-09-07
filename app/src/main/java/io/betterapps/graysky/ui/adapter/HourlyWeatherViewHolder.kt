@@ -47,7 +47,7 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
 
         if (item.isBeforeNewDay(timezoneOffset)) {
             dateTextView.visibility = View.VISIBLE
-            dateTextView.text = item.formatDay(timezoneOffset)
+            dateTextView.text = item.formatNextDay(timezoneOffset)
         } else {
             dateTextView.visibility = View.GONE
         }
