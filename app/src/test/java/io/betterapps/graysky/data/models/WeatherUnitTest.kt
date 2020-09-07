@@ -28,4 +28,9 @@ class WeatherUnitTest {
             weatherUnit.actualLocalTime(timeOffset = 7200, format = "yyyy-MM-dd'T'HH:mm:ss")
         )
     }
+
+    @Test
+    fun formatNextDayTest() {
+        assertEquals("Thu\n27\nAug", weatherUnit.formatNextDay(timeOffset = 7200))
+    }
 }

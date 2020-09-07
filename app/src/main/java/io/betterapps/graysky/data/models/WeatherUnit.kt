@@ -36,4 +36,13 @@ data class WeatherUnit(
     fun actualLocalTime(timeOffset: Long = 0, format: String): String {
         return TimeUtils.formatLocalTime(dateTime, format, timeOffset)
     }
+
+    fun isBeforeNewDay(timeOffset: Long = 0): Boolean {
+        // 23h to 0h
+        return TimeUtils.hourLocalTime(dateTime, timeOffset) >= 23
+    }
+
+    fun formatNextDay(timeOffset: Long = 0): String {
+        return TimeUtils.formatNextDay(dateTime, timeOffset)
+    }
 }

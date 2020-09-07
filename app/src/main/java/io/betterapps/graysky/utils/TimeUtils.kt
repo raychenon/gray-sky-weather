@@ -6,6 +6,7 @@ import java.util.TimeZone
 object TimeUtils {
 
     val dateFormat = instantiateDateFormat()
+    val dayFormat = instantiateDayFormat()
 
     // https://stackoverflow.com/questions/51811391/utils-class-in-kotlin
     @JvmStatic
@@ -15,14 +16,33 @@ object TimeUtils {
     }
 
     @JvmStatic
+    fun hourLocalTime(dateTime: Long, timeOffset: Long = 0): Long {
+        val date = java.util.Date((dateTime + timeOffset) * 1000)
+        val hour = date.time % 86400000 / 3600000
+        return hour
+    }
+
+    @JvmStatic
     fun formatLocalTime(dateTime: Long, format: String, timeOffset: Long = 0): String {
         val dateFormat = instantiateDateFormat(format)
         val date = java.util.Date((dateTime + timeOffset) * 1000)
         return dateFormat.format(date)
     }
 
+    @JvmStatic
+    fun formatNextDay(dateTime: Long, timeOffset: Long = 0): String {
+        val date = java.util.Date((dateTime + timeOffset + 86400) * 1000)
+        return dayFormat.format(date)
+    }
+
     private fun instantiateDateFormat(format: String = "HH:mm"): SimpleDateFormat {
         val sdf = SimpleDateFormat(format)
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT")) // IMPORTANT: set time zone independent of the local machine
+        return sdf
+    }
+
+    private fun instantiateDayFormat(): SimpleDateFormat {
+        val sdf = SimpleDateFormat("E\ndd\nMMM")
         sdf.setTimeZone(TimeZone.getTimeZone("GMT")) // IMPORTANT: set time zone independent of the local machine
         return sdf
     }

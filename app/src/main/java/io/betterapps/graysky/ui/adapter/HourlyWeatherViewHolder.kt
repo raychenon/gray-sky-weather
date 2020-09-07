@@ -24,6 +24,7 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
 
     val timeTextView: TextView = itemView.findViewById(R.id.weather_hour_time_textview)
     val realTempTextView: TextView = itemView.findViewById(R.id.weather_hour_real_temp_textview)
+    val dateTextView: TextView = itemView.findViewById(R.id.weather_date_textview)
     val rainTextView: TextView =
         itemView.findViewById(R.id.weather_hour_rain_textview)
     val iconView: ImageView = itemView.findViewById(R.id.weather_icon_imageview)
@@ -36,12 +37,20 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         realTempTextView.text = formatTemperature(item.temperature)
         item.rain?.let {
             rainTextView.visibility = View.VISIBLE
-            // todo find a better a wording
-            rainTextView.text = getString(R.string.rain_volume_format, it.precipitationVolumeForecast1h)
+            // todo find a better a wording for rain
+            rainTextView.text =
+                getString(R.string.rain_volume_format, it.precipitationVolumeForecast1h)
         } ?: run {
             rainTextView.visibility = View.GONE
         }
         ImageLoader.load(iconView, item.iconURL())
+
+        if (item.isBeforeNewDay(timezoneOffset)) {
+            dateTextView.visibility = View.VISIBLE
+            dateTextView.text = item.formatNextDay(timezoneOffset)
+        } else {
+            dateTextView.visibility = View.GONE
+        }
     }
 
     private fun formatTemperature(valFloat: Float): String {
