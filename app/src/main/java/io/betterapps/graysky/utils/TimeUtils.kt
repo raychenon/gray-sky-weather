@@ -19,7 +19,7 @@ object TimeUtils {
     fun hourLocalTime(dateTime: Long, timeOffset: Long = 0): Long {
         val date = java.util.Date((dateTime + timeOffset) * 1000)
         val hour = date.time % 86400000 / 3600000
-        return hour;
+        return hour
     }
 
     @JvmStatic
@@ -30,8 +30,8 @@ object TimeUtils {
     }
 
     @JvmStatic
-    fun formatDay(dateTime: Long, timeOffset: Long = 0): String {
-        val date = java.util.Date((dateTime + timeOffset + 3600) * 1000)
+    fun formatNextDay(dateTime: Long, timeOffset: Long = 0): String {
+        val date = java.util.Date((dateTime + timeOffset + 86400) * 1000)
         return dayFormat.format(date)
     }
 
