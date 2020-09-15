@@ -63,7 +63,7 @@ dependencies {
     implementation(Square.retrofit2.converter.gson)
     implementation("com.google.code.gson:gson:_") // TODO
 
-    implementation(Square.picasso)
+    implementation("com.squareup.picasso:picasso:_")
 
     // Koin for Android
     implementation("org.koin:koin-android:_") // TODO add koin
