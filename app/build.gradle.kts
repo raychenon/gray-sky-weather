@@ -1,4 +1,3 @@
-
 import org.jlleitschuh.gradle.ktlint.KtlintCheckTask
 
 plugins {
@@ -24,7 +23,12 @@ android {
     buildTypes {
         named("release") {
             isMinifyEnabled = false
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
+            setProguardFiles(
+                listOf(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
+            )
         }
     }
 
@@ -88,6 +92,9 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics:17.5.0")
     implementation("com.google.android.gms:play-services-location:17.0.0")
     implementation(Google.firebase.analytics) // TODO does not work
+
+    // Map autocompletion
+    implementation("com.google.android.libraries.places:places:2.3.0")
 
     testImplementation(Testing.junit4)
     testImplementation("org.koin:koin-test:_")
