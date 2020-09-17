@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                 Activity.RESULT_OK -> {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
-                        Timber.i("onActivityResult Place: ${place.name}, ${place.id}")
+                        Timber.i("onActivityResult Place: ${place.name}, ${place.id}, ${place.latLng} , ${place.toString()}")
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
