@@ -34,13 +34,13 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     fun bindData(item: WeatherUnit, timezoneOffset: Long) {
         timeTextView.text = item.actualLocalTime(timeOffset = timezoneOffset)
         realTempTextView.text = formatTemperature(item.temperature)
-        item.rain?.let {
-            rainTextView.visibility = View.VISIBLE
-            // todo find a better a wording
-            rainTextView.text = getString(R.string.rain_volume_format, it.precipitationVolumeForecast1h)
-        } ?: run {
-            rainTextView.visibility = View.GONE
-        }
+        // item.rain?.let {
+        //     rainTextView.visibility = View.VISIBLE
+        //     // todo find a better a wording
+        //     rainTextView.text = getString(R.string.rain_volume_format, it.precipitationVolumeForecast1h)
+        // } ?: run {
+        //     rainTextView.visibility = View.GONE
+        // }
         ImageLoader.load(iconView, item.iconURL())
     }
 
