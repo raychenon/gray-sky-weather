@@ -41,6 +41,7 @@
                 app:contentInsetStartWithNavigation="0dp"
                 app:layout_collapseMode="pin"
                 app:menu="@menu/menu_weather"
+                app:title="@string/app_name"
                 app:navigationIcon="@drawable/ic_detail_back"
                 app:titleTextColor="?attr/colorOnSurface" />
 
@@ -50,7 +51,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
 
         <LinearLayout
             android:id="@+id/main_container"
@@ -58,25 +60,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/main_search_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/search_button" />
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/main_fab"
         style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding"
+        android:background="@color/blue_button"
         android:tint="@android:color/white"
         app:layout_anchor="@id/appbar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_add" />
 

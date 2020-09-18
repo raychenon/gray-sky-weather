@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity() {
         // Create a new PlacesClient instance
         val placesClient: PlacesClient = Places.createClient(this)
 
+
+        main_fab.setOnClickListener(View.OnClickListener {
+            launchAutocomplete()
+        })
     }
 
     fun showWeatherFragments(locations: List<LocationName>) {
