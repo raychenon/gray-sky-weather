@@ -95,6 +95,8 @@ dependencies {
 
     // Map autocompletion
     implementation("com.google.android.libraries.places:places:2.3.0")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
+    implementation("com.google.android.material:material:1.2.1")
 
     testImplementation(Testing.junit4)
     testImplementation("org.koin:koin-test:_")

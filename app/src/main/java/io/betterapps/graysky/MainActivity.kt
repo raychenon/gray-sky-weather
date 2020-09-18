@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -59,16 +60,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         // Initialize the SDK
         Places.initialize(applicationContext, getString(R.string.cloud_platform_api))
 
         // Create a new PlacesClient instance
         val placesClient: PlacesClient = Places.createClient(this)
 
-
-        main_search_button.setOnClickListener(View.OnClickListener {
-            launchAutocomplete()
-        })
     }
 
     fun showWeatherFragments(locations: List<LocationName>) {
@@ -106,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
-        val fields = listOf(Place.Field.ID, Place.Field.NAME)
+        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
 
         // Start the autocomplete intent.
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
@@ -137,6 +135,18 @@ class MainActivity : AppCompatActivity() {
             return
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_add -> {
+            launchAutocomplete()
+            true
+        }
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun showRationale() {
