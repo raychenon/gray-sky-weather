@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     val mainViewModel: MainViewModel by viewModel()
 
     private lateinit var userLocationDelegate: UserLocationDelegate
+    private lateinit var locationNames: MutableList<LocationName>
 
     companion object {
         private val BUNDLE_GEOLOC = "GEOLOC_EXTRA"
@@ -41,6 +42,11 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(BUNDLE_GEOLOC, geolocEnabled)
             return intent
         }
+    }
+
+    init {
+        locationNames = mutableListOf()
+        locationNames.addAll(GlobalConstants.CITIES)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,6 +125,8 @@ class MainActivity : AppCompatActivity() {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
                         Timber.i("onActivityResult Place: ${place.name}, ${place.id}, ${place.latLng} , ${place.toString()}")
+                        val city = LocationName(place.name, GeoLocation(place.latLng!!.latitude, place.latLng!!.longitude))
+                        locationNames.add(city)
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
@@ -174,7 +182,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayWeatherFromLocations(currentUserlocation: GeoLocation) {
-        mainViewModel.sortByDistance(currentUserlocation, GlobalConstants.CITIES)
+        mainViewModel.sortByDistance(currentUserlocation, locationNames)
             .observe(
                 this,
                 androidx.lifecycle.Observer {
