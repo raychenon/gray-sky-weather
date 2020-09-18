@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.libraries.places.api.Places
@@ -60,17 +60,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         // Initialize the SDK
         Places.initialize(applicationContext, getString(R.string.cloud_platform_api))
 
         // Create a new PlacesClient instance
         val placesClient: PlacesClient = Places.createClient(this)
 
-
-        main_fab.setOnClickListener(View.OnClickListener {
-            launchAutocomplete()
-        })
+        main_fab.setOnClickListener({ v -> launchAutocomplete() })
     }
 
     fun showWeatherFragments(locations: List<LocationName>) {
@@ -104,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
     private val AUTOCOMPLETE_REQUEST_CODE = 1
 
-    private fun launchAutocomplete(): Unit {
+    fun launchAutocomplete(): Unit {
 
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
@@ -139,6 +135,12 @@ class MainActivity : AppCompatActivity() {
             return
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_weather, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

@@ -5,4 +5,5 @@
     <dimen name="button_padding">15dp</dimen>
     <dimen name="plant_detail_app_bar_height">278dp</dimen>
     <dimen name="toolbar_elevation">5dp</dimen>
+    <dimen name="toolbar_height">50dp</dimen>
 </resources>

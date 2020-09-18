@@ -42,7 +42,6 @@
                 app:layout_collapseMode="pin"
                 app:menu="@menu/menu_weather"
                 app:title="@string/app_name"
-                app:navigationIcon="@drawable/ic_detail_back"
                 app:titleTextColor="?attr/colorOnSurface" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -50,9 +49,10 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/main_nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="@dimen/toolbar_height">
 
         <LinearLayout
             android:id="@+id/main_container"
