@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var userLocationDelegate: UserLocationDelegate
     private lateinit var locationNames: MutableList<LocationName>
+    private var lastUserKnownLocation: GeoLocation? = null
 
     companion object {
         private val BUNDLE_GEOLOC = "GEOLOC_EXTRA"
@@ -127,6 +128,9 @@ class MainActivity : AppCompatActivity() {
                         Timber.i("onActivityResult Place: ${place.name}, ${place.id}, ${place.latLng} , ${place.toString()}")
                         val city = LocationName(place.name, GeoLocation(place.latLng!!.latitude, place.latLng!!.longitude))
                         locationNames.add(city)
+                        Timber.i("onActivityResult, locationNames = ${locationNames.toString()}")
+                        val geolocation = lastUserKnownLocation ?: GlobalConstants.USER_LOCATION
+                        displayWeatherFromLocations(geolocation)
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
@@ -175,13 +179,18 @@ class MainActivity : AppCompatActivity() {
     private fun displayWeatherOrError(location: Location?) {
 
         location?.let {
-            displayWeatherFromLocations(location2Geolocation(it))
+            val geoLocation  = location2Geolocation(it)
+            lastUserKnownLocation = geoLocation
+            displayWeatherFromLocations(geoLocation)
         } ?: run {
             showErrorLastLocation()
         }
     }
 
     private fun displayWeatherFromLocations(currentUserlocation: GeoLocation) {
+        // clean previous views
+        main_container.removeAllViews()
+
         mainViewModel.sortByDistance(currentUserlocation, locationNames)
             .observe(
                 this,
