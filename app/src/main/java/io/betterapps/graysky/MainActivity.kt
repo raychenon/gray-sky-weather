@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize the SDK
         Places.initialize(applicationContext, getString(R.string.cloud_platform_api))
 
-        main_fab.setOnClickListener({ v -> launchAutocomplete() })
+        main_search_edittext.setOnFocusChangeListener({ v, hasFocus -> launchAutocomplete() })
     }
 
     fun showWeatherFragments(locations: List<LocationName>) {
