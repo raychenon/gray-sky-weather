@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
@@ -69,9 +68,6 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the SDK
         Places.initialize(applicationContext, getString(R.string.cloud_platform_api))
-
-        // Create a new PlacesClient instance
-        val placesClient: PlacesClient = Places.createClient(this)
 
         main_fab.setOnClickListener({ v -> launchAutocomplete() })
     }
