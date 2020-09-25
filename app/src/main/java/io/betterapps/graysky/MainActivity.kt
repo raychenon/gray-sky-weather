@@ -72,6 +72,13 @@ class MainActivity : AppCompatActivity() {
         main_search_edittext.setOnFocusChangeListener({ v, hasFocus -> launchAutocomplete() })
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        // after returning from the sub-activity Places autocompletion
+        main_search_edittext.clearFocus()
+    }
+
     fun showWeatherFragments(locations: List<LocationName>) {
         val ft = supportFragmentManager.beginTransaction()
         for (location in locations) {
@@ -116,6 +123,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
@@ -175,7 +183,7 @@ class MainActivity : AppCompatActivity() {
     private fun displayWeatherOrError(location: Location?) {
 
         location?.let {
-            val geoLocation  = location2Geolocation(it)
+            val geoLocation = location2Geolocation(it)
             lastUserKnownLocation = geoLocation
             displayWeatherFromLocations(geoLocation)
         } ?: run {
