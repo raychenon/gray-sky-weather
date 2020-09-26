@@ -19,31 +19,28 @@ class OkHttpClientWithCache {
 
             val cache = Cache(httpCacheDirectory, cacheSize)
             val okHttpClient = OkHttpClient.Builder()
-                .addNetworkInterceptor(provideCacheInterceptor(30))
+                .addNetworkInterceptor(CacheDeateLimitInterceptor(30))
                 .cache(cache)
                 .build()
 
             return okHttpClient
         }
-
-        private fun provideCacheInterceptor(maxMinutes: Int): Interceptor {
-            return object : Interceptor {
-                @Throws(IOException::class)
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    val response: Response = chain.proceed(chain.request())
-                    val cacheControl = CacheControl.Builder()
-                        .maxAge(maxMinutes, TimeUnit.MINUTES)
-                        .build()
-
-                    // RFC 7234: max-age or max-stale
-                    return response.newBuilder()
-                        .header("max-age", cacheControl.toString())
-                        .build()
-                }
-            }
-        }
     }
-
-
 }
 
+internal class CacheDeateLimitInterceptor(val maxMinutes: Int) : Interceptor {
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val response: Response = chain.proceed(chain.request())
+        val cacheControl = CacheControl.Builder()
+            .maxAge(maxMinutes, TimeUnit.MINUTES)
+            .build()
+
+        // RFC 7234: max-age or max-stale
+        return response.newBuilder()
+            .header("max-age", cacheControl.toString())
+            .header("Cache-Control", "max-age=$maxMinutes")
+            .header("Content-Encoding", "gzip")
+            .build()
+    }
+}
