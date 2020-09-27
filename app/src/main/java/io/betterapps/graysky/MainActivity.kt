@@ -69,14 +69,6 @@ class MainActivity : AppCompatActivity() {
         // Initialize the SDK
         Places.initialize(applicationContext, getString(R.string.cloud_platform_api))
 
-        main_search_edittext.setOnFocusChangeListener({ v, hasFocus -> launchAutocomplete() })
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        // after returning from the sub-activity Places autocompletion
-        main_search_edittext.clearFocus()
     }
 
     fun showWeatherFragments(locations: List<LocationName>) {
@@ -130,7 +122,10 @@ class MainActivity : AppCompatActivity() {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
                         Timber.i("onActivityResult Place: ${place.name}, ${place.id}, ${place.latLng} , ${place.toString()}")
-                        val city = LocationName(place.name, GeoLocation(place.latLng!!.latitude, place.latLng!!.longitude))
+                        val city = LocationName(
+                            place.name,
+                            GeoLocation(place.latLng!!.latitude, place.latLng!!.longitude)
+                        )
                         locationNames.add(city)
                         Timber.i("onActivityResult, locationNames = ${locationNames.toString()}")
                         val geolocation = lastUserKnownLocation ?: GlobalConstants.USER_LOCATION
