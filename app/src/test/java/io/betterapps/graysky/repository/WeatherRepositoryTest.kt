@@ -1,12 +1,14 @@
 package io.betterapps.graysky.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.nhaarman.mockitokotlin2.mock
 import io.betterapps.graysky.data.api.ApiHelper
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.models.WeatherByLocationResponse
 import io.betterapps.graysky.data.models.WeatherUnit
 import io.betterapps.graysky.data.network.RetrofitFactory
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +26,9 @@ class WeatherRepositoryTest {
 
     @Test
     fun loadFromCache() {
-        mockApiHelper = ApiHelper(RetrofitFactory.weatherService) // must be mocked
+        val okHttp = mock<OkHttpClient>()
+        val openWeatherMapService = RetrofitFactory.weatherService(okHttp)
+        mockApiHelper = ApiHelper(openWeatherMapService) // must be mocked
 
         // https://github.com/nhaarman/mockito-kotlin/issues/302#issuecomment-434218706
         // mock crashes at init
