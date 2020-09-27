@@ -2,13 +2,11 @@ package io.betterapps.graysky.data.network
 
 import android.content.Context
 import okhttp3.Cache
-import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okio.IOException
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 class OkHttpClientWithCache {
 
@@ -19,7 +17,7 @@ class OkHttpClientWithCache {
 
             val cache = Cache(httpCacheDirectory, cacheSize)
             val okHttpClient = OkHttpClient.Builder()
-                .addNetworkInterceptor(CacheDeateLimitInterceptor(30))
+                .addNetworkInterceptor(CacheDateLimitInterceptor(30))
                 .cache(cache)
                 .build()
 
@@ -28,19 +26,23 @@ class OkHttpClientWithCache {
     }
 }
 
-internal class CacheDeateLimitInterceptor(val maxMinutes: Int) : Interceptor {
+internal class CacheDateLimitInterceptor(val maxMinutes: Int) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val response: Response = chain.proceed(chain.request())
+
+        /*
         val cacheControl = CacheControl.Builder()
             .maxAge(maxMinutes, TimeUnit.MINUTES)
             .build()
-
         // RFC 7234: max-age or max-stale
         return response.newBuilder()
-            .header("max-age", cacheControl.toString())
-            .header("Cache-Control", "max-age=$maxMinutes")
-            .header("Content-Encoding", "gzip")
+            .header("Cache-Control", cacheControl.toString())
+            .build()
+        */
+        val maxAge = maxMinutes * 60
+        return response.newBuilder()
+            .header("Cache-Control", "public, max-age=${maxAge}")
             .build()
     }
 }
