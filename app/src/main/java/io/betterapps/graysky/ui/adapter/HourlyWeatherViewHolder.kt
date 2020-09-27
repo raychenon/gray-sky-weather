@@ -25,8 +25,6 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     val timeTextView: TextView = itemView.findViewById(R.id.weather_hour_time_textview)
     val realTempTextView: TextView = itemView.findViewById(R.id.weather_hour_real_temp_textview)
     val dateTextView: TextView = itemView.findViewById(R.id.weather_date_textview)
-    val rainTextView: TextView =
-        itemView.findViewById(R.id.weather_hour_rain_textview)
     val iconView: ImageView = itemView.findViewById(R.id.weather_icon_imageview)
 
     override val containerView: View?
@@ -35,13 +33,7 @@ class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     fun bindData(item: WeatherUnit, timezoneOffset: Long) {
         timeTextView.text = item.actualLocalTime(timeOffset = timezoneOffset)
         realTempTextView.text = formatTemperature(item.temperature)
-        // item.rain?.let {
-        //     rainTextView.visibility = View.VISIBLE
-        //     // todo find a better a wording
-        //     rainTextView.text = getString(R.string.rain_volume_format, it.precipitationVolumeForecast1h)
-        // } ?: run {
-        //     rainTextView.visibility = View.GONE
-        // }
+
         ImageLoader.load(iconView, item.iconURL())
 
         if (item.isBeforeNewDay(timezoneOffset)) {
