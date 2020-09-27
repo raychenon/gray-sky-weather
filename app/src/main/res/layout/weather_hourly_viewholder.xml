@@ -33,15 +33,6 @@
         app:layout_constraintTop_toBottomOf="@id/weather_icon_imageview" />
 
     <TextView
-        android:id="@+id/weather_hour_rain_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="rain: "
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_hour_real_temp_textview" />
-
-
-    <TextView
         android:id="@+id/weather_date_textview"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

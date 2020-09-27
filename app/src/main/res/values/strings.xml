@@ -9,4 +9,6 @@
     <string name="start_permissions_mo_location">Of course, you are free to not allow the location permission.</string>
     <string name="start_allow_geolocation">Enable geolocation</string>
     <string name="start_no_geolocation">No geolocation</string>
+    <string name="search_button">Search locations</string>
+    <string name="menu_add">Add new location</string>
 </resources>
