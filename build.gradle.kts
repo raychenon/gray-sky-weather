@@ -35,3 +35,10 @@ allprojects {
         maven(url = "https://jitpack.io")
     }
 }
+
+
+tasks.register("runOnGitHub") {
+    dependsOn(":app:lint", ":app:testDebugUnitTest")
+    group = "custom"
+    description = "$ ./gradlew runOnGitHub # runs on GitHub Action"
+}

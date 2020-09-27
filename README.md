@@ -10,10 +10,9 @@
 Gray Sky Weather is the app to compare the closest locations weather on the same timeline.
 Talking about the weather can be used as an ice-breaker with a stranger or in difficult situations (ex: a job interview).
 
-At first, this project is part of the interview process at [Shadow](https://shadow.tech) and the initial inspirations come from [Sunly](https://github.com/carayolthomas/Sunly-Objc)
-
-The name Gray Sky is after [Dark Sky got bought by Apple](https://blog.darksky.net/).
-Of course, I am still hoping to join the [Shadow](https://shadow.tech) 💻.
+The name **Gray Sky** is after [Dark Sky got bought by Apple](https://blog.darksky.net/).
+The color gray comes from this quote of "Breaking Bad":
+> We came up with the name. Schwartz: black. Walter White. So together, they became Gray Matter Technologies.
 
 I plan to publish on the Google Play store and improve the project.
 

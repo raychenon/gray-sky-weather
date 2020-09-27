@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding">
+    android:paddingLeft="@dimen/padding">
 
     <TextView
         android:id="@+id/weather_hour_time_textview"
@@ -20,6 +20,7 @@
         android:layout_width="@dimen/weather_icon_height"
         android:layout_height="@dimen/weather_icon_height"
         android:layout_gravity="center_horizontal"
+        android:paddingRight="@dimen/padding"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_hour_time_textview" />
 
@@ -39,6 +40,21 @@
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_hour_real_temp_textview" />
+
+
+    <TextView
+        android:id="@+id/weather_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="Monday"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/weather_icon_imageview"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
