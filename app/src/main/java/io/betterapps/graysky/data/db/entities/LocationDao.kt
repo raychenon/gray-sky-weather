@@ -1,6 +1,7 @@
 package io.betterapps.graysky.data.db.entities
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -18,4 +19,7 @@ interface LocationDao {
 
     @Query("DELETE FROM location_table")
     suspend fun deleteAll()
+
+    @Delete
+    suspend fun delete(entity: LocationEntity)
 }
