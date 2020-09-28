@@ -59,7 +59,7 @@ dependencies {
     implementation(AndroidX.recyclerView) // "androidx.recyclerview:recyclerview:_")
     // For control over item selection of both touch and mouse driven selection
     // implementation(AndroidX.recyclerViewSelection) TODO: 1.1.0 does not exist
-    implementation("androidx.recyclerview:recyclerview-selection:1.1.0-rc01")
+
 
     // network
     implementation(Square.retrofit2.retrofit)
@@ -67,7 +67,7 @@ dependencies {
     implementation(Square.retrofit2.converter.gson)
     implementation("com.google.code.gson:gson:_") // TODO
 
-    implementation("com.squareup.picasso:picasso:_")
+    implementation(Square.picasso)
 
     // Koin for Android
     implementation("org.koin:koin-android:_") // TODO add koin
