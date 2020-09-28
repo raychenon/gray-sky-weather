@@ -59,7 +59,8 @@ dependencies {
     implementation(AndroidX.recyclerView) // "androidx.recyclerview:recyclerview:_")
     // For control over item selection of both touch and mouse driven selection
     // implementation(AndroidX.recyclerViewSelection) TODO: 1.1.0 does not exist
-
+    implementation(AndroidX.room.runtime)
+    implementation(AndroidX.room.ktx)
 
     // network
     implementation(Square.retrofit2.retrofit)
@@ -101,6 +102,8 @@ dependencies {
     testImplementation(Testing.junit4)
     testImplementation("org.koin:koin-test:_")
     testImplementation(Testing.mockito.kotlin)
+
+    testImplementation(AndroidX.room.testing)
 
     // testImplementation(for pure JVM unit tests)
     testImplementation(KotlinX.coroutines.test)
