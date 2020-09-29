@@ -45,7 +45,7 @@ val dataModule = module {
 
 val mvvmModule = module {
     viewModel { WeatherViewModel(get() as WeatherRepository) }
-    viewModel { MainViewModel() }
+    viewModel { MainViewModel(get() as LocationRepository) }
 }
 
 val allModules = networkModule + dataModule + mvvmModule

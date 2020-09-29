@@ -16,7 +16,10 @@ class LocationRepositoryImpl(private val dao: LocationDao) : LocationRepository 
     }
 
     override fun retrieveLocations(): List<LocationName> {
-        return dao.getLocations()
-            .map { it -> LocationName(it.name, GeoLocation(it.latitude, it.longitude)) }
+        val mutableList = mutableListOf<LocationName>()
+        mutableList.addAll(dao.getLocations()
+            .map { it -> LocationName(it.name, GeoLocation(it.latitude, it.longitude)) })
+
+        return mutableList
     }
 }
