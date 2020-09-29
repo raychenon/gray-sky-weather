@@ -10,6 +10,7 @@ import io.betterapps.graysky.data.db.entities.LocationEntity
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.AfterClass
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
@@ -20,13 +21,14 @@ import java.io.IOException
 @RunWith(AndroidJUnit4::class)
 class LocationEntityReadWriteTest {
 
-
     companion object {
         // https://stackoverflow.com/a/35554077/311420
         private lateinit var dao: LocationDao
         private lateinit var db: LocationDatabase
 
-        @BeforeClass @JvmStatic fun setup() {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
             // things to execute once and keep around for the class
             val context = ApplicationProvider.getApplicationContext<Context>()
             db = LocationDatabase.getDatabase(context, "db_test")
@@ -35,13 +37,15 @@ class LocationEntityReadWriteTest {
 
         @AfterClass
         @Throws(IOException::class)
-        @JvmStatic fun closeDb() {
+        @JvmStatic
+        fun closeDb() {
             db.close()
         }
     }
 
+    // before each test
     @Before
-    fun resetDB(){
+    fun resetDB() {
         db.clearAllTables()
     }
 
@@ -93,5 +97,36 @@ class LocationEntityReadWriteTest {
         val list2 = dao.getLocations()
         assertThat(list2.size, equalTo(1))
         assertThat(list2.get(0), equalTo(entity1))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeThenDeleteCity() {
+        val NAME = "Amsterdam"
+        val entity1: LocationEntity = LocationEntity("id", NAME, 52.370216, 4.895168)
+        runBlocking {
+            dao.insert(entity1)
+        }
+
+        assertEquals(1, dao.getLocations().size)
+
+        runBlocking { dao.deleteCity(NAME) }
+
+        assertEquals(0, dao.getLocations().size)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeThenDeleteEntity() {
+        val entity1: LocationEntity = LocationEntity("id", "Amsterdam", 52.370216, 4.895168)
+        runBlocking {
+            dao.insert(entity1)
+        }
+
+        assertEquals(1, dao.getLocations().size)
+
+        runBlocking { dao.delete(entity1) }
+
+        assertEquals(0, dao.getLocations().size)
     }
 }
