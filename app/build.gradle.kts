@@ -5,6 +5,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -47,6 +48,11 @@ android {
 
 val ktlint by configurations.creating
 
+kapt {
+    // https://kotlinlang.org/docs/reference/kapt.html
+    useBuildCache = false
+}
+
 dependencies {
 
     implementation(Kotlin.stdlib.jdk8)
@@ -60,6 +66,7 @@ dependencies {
     // For control over item selection of both touch and mouse driven selection
     // implementation(AndroidX.recyclerViewSelection) TODO: 1.1.0 does not exist
     implementation(AndroidX.room.runtime)
+    kapt(AndroidX.room.compiler)
     implementation(AndroidX.room.ktx)
 
     // network

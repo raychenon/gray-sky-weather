@@ -1,14 +1,13 @@
 package io.betterapps.graysky.db.entities
 
 import android.content.Context
-import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.betterapps.graysky.data.db.entities.LocationDao
 import io.betterapps.graysky.data.db.entities.LocationDatabase
 import io.betterapps.graysky.data.db.entities.LocationEntity
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
 import org.junit.Before
@@ -40,8 +39,11 @@ class LocationEntityReadWriteTest {
     @Throws(Exception::class)
     fun writeLocationAndReadInList() {
 
-        val entity: LocationEntity = LocationEntity("id", "Amsterdam", 52.370216, 4.895168)
-        launch(Dispatchers.Default) { dao.insert(entity) }
+        // https://stackoverflow.com/questions/49865054/how-to-unit-test-kotlin-suspending-functions
+        val entity: LocationEntity = LocationEntity(1, "id", "Amsterdam", 52.370216, 4.895168)
+        runBlocking {
+            dao.insert(entity)
+        }
 
         val list = dao.getLocations()
         assertThat(list.get(0), equalTo(entity))
