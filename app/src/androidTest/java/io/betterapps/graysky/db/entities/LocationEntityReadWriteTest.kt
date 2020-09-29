@@ -25,27 +25,63 @@ class LocationEntityReadWriteTest {
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        db = LocationDatabase.getDatabase(context)
+        db = LocationDatabase.getDatabase(context, "db_test")
         dao = db.locationDao()
     }
 
     @After
     @Throws(IOException::class)
     fun closeDb() {
+        db.clearAllTables()
         db.close()
     }
 
     @Test
     @Throws(Exception::class)
-    fun writeLocationAndReadInList() {
+    fun writeLocationsAndReadInList() {
 
         // https://stackoverflow.com/questions/49865054/how-to-unit-test-kotlin-suspending-functions
-        val entity: LocationEntity = LocationEntity(1, "id", "Amsterdam", 52.370216, 4.895168)
+        val entity1: LocationEntity = LocationEntity("id", "Amsterdam", 52.370216, 4.895168)
         runBlocking {
-            dao.insert(entity)
+            dao.insert(entity1)
         }
 
         val list = dao.getLocations()
-        assertThat(list.get(0), equalTo(entity))
+        assertThat(list.get(0), equalTo(entity1))
+
+        val entity2: LocationEntity =
+            LocationEntity("id2", "Paris", 48.8534, 2.3488)
+        runBlocking {
+            dao.insert(entity2)
+        }
+
+        val list2 = dao.getLocations()
+        assertThat(list2.size, equalTo(2))
+        assertThat(list2.get(1), equalTo(entity2))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeLocationsWithSameIdAndReadInList() {
+
+        val uniqueID = "whatever"
+        val entity1: LocationEntity = LocationEntity(uniqueID, "Amsterdam", 52.370216, 4.895168)
+        runBlocking {
+            dao.insert(entity1)
+        }
+
+        val list = dao.getLocations()
+        assertThat(list.get(0), equalTo(entity1))
+
+        val entity2: LocationEntity =
+            LocationEntity(uniqueID, "Paris", 48.8534, 2.3488)
+        // TODO handle correctly
+        runBlocking {
+            dao.insert(entity2)
+        }
+
+        val list2 = dao.getLocations()
+        assertThat(list2.size, equalTo(1))
+        assertThat(list2.get(0), equalTo(entity1))
     }
 }

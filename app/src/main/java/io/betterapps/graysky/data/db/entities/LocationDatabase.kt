@@ -15,7 +15,7 @@ public abstract class LocationDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: LocationDatabase? = null
 
-        fun getDatabase(context: Context): LocationDatabase {
+        fun getDatabase(context: Context, dbName: String = "location_database"): LocationDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -25,7 +25,7 @@ public abstract class LocationDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     LocationDatabase::class.java,
-                    "location_database"
+                    dbName
                 ).build()
                 INSTANCE = instance
                 return instance
