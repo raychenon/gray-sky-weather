@@ -54,7 +54,8 @@ class LocationEntityReadWriteTest {
     fun writeLocationsAndReadInList() {
 
         // https://stackoverflow.com/questions/49865054/how-to-unit-test-kotlin-suspending-functions
-        val entity1: LocationEntity = LocationEntity("id", "Amsterdam", 52.370216, 4.895168)
+        val entity1: LocationEntity =
+            LocationEntity("id", "Amsterdam", "Amsterdam, NL", 52.370216, 4.895168)
         runBlocking {
             dao.insert(entity1)
         }
@@ -63,7 +64,7 @@ class LocationEntityReadWriteTest {
         assertThat(list.get(0), equalTo(entity1))
 
         val entity2: LocationEntity =
-            LocationEntity("id2", "Paris", 48.8534, 2.3488)
+            LocationEntity("id2", "Paris", "Paris, France", 48.8534, 2.3488)
         runBlocking {
             dao.insert(entity2)
         }
@@ -78,7 +79,8 @@ class LocationEntityReadWriteTest {
     fun writeLocationsWithSameIdAndReadInList() {
 
         val UNIQUE_ID = "whatever"
-        val entity1: LocationEntity = LocationEntity(UNIQUE_ID, "Amsterdam", 52.370216, 4.895168)
+        val entity1: LocationEntity =
+            LocationEntity(UNIQUE_ID, "Amsterdam", "Amsterdam, NL", 52.370216, 4.895168)
         runBlocking {
             dao.insert(entity1)
         }
@@ -88,7 +90,7 @@ class LocationEntityReadWriteTest {
 
         // entity2 should not be inserted due to the Conflict
         val entity2: LocationEntity =
-            LocationEntity(UNIQUE_ID, "Paris", 48.8534, 2.3488)
+            LocationEntity(UNIQUE_ID, "Paris", "Paris, France", 48.8534, 2.3488)
 
         runBlocking {
             dao.insert(entity2)
@@ -103,7 +105,8 @@ class LocationEntityReadWriteTest {
     @Throws(Exception::class)
     fun writeThenDeleteCity() {
         val NAME = "Amsterdam"
-        val entity1: LocationEntity = LocationEntity("id", NAME, 52.370216, 4.895168)
+        val entity1: LocationEntity =
+            LocationEntity("id", NAME, "Amsterdam, NL", 52.370216, 4.895168)
         runBlocking {
             dao.insert(entity1)
         }
@@ -118,7 +121,8 @@ class LocationEntityReadWriteTest {
     @Test
     @Throws(Exception::class)
     fun writeThenDeleteEntity() {
-        val entity1: LocationEntity = LocationEntity("id", "Amsterdam", 52.370216, 4.895168)
+        val entity1: LocationEntity =
+            LocationEntity("id", "Amsterdam", "Amsterdam, NL", 52.370216, 4.895168)
         runBlocking {
             dao.insert(entity1)
         }

@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the SDK
         Places.initialize(applicationContext, getString(R.string.cloud_platform_api))
-
     }
 
     fun showWeatherFragments(locations: List<LocationName>) {
@@ -106,7 +105,12 @@ class MainActivity : AppCompatActivity() {
 
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
-        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+        val fields = listOf(
+            Place.Field.ID,
+            Place.Field.NAME,
+            Place.Field.LAT_LNG,
+            Place.Field.ADDRESS
+        )
 
         // Start the autocomplete intent.
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
@@ -121,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                 Activity.RESULT_OK -> {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
-                        Timber.i("onActivityResult Place: ${place.name}, ${place.id}, ${place.latLng} , ${place.toString()}")
+                        Timber.i("onActivityResult Place: ${place.name}, ${place.id}, ${place.latLng} , address = ${place.address} , \n , ${place.toString()}")
                         val city = LocationName(
                             place.name,
                             GeoLocation(place.latLng!!.latitude, place.latLng!!.longitude)
