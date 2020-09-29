@@ -9,7 +9,7 @@ import androidx.room.Query
 // https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin/index.html?index=..%2F..index#5
 @Dao
 interface LocationDao {
-    @Query("SELECT * from location_table ORDER BY name ASC")
+    @Query("SELECT * from location_table")
     fun getLocations(): List<LocationEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
