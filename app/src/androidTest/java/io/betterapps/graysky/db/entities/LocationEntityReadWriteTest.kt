@@ -9,8 +9,9 @@ import io.betterapps.graysky.data.db.entities.LocationDatabase
 import io.betterapps.graysky.data.db.entities.LocationEntity
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
-import org.junit.After
+import org.junit.AfterClass
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
@@ -19,21 +20,29 @@ import java.io.IOException
 @RunWith(AndroidJUnit4::class)
 class LocationEntityReadWriteTest {
 
-    private lateinit var dao: LocationDao
-    private lateinit var db: LocationDatabase
 
-    @Before
-    fun createDb() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        db = LocationDatabase.getDatabase(context, "db_test")
-        dao = db.locationDao()
+    companion object {
+        // https://stackoverflow.com/a/35554077/311420
+        private lateinit var dao: LocationDao
+        private lateinit var db: LocationDatabase
+
+        @BeforeClass @JvmStatic fun setup() {
+            // things to execute once and keep around for the class
+            val context = ApplicationProvider.getApplicationContext<Context>()
+            db = LocationDatabase.getDatabase(context, "db_test")
+            dao = db.locationDao()
+        }
+
+        @AfterClass
+        @Throws(IOException::class)
+        @JvmStatic fun closeDb() {
+            db.close()
+        }
     }
 
-    @After
-    @Throws(IOException::class)
-    fun closeDb() {
+    @Before
+    fun resetDB(){
         db.clearAllTables()
-        db.close()
     }
 
     @Test
@@ -64,8 +73,8 @@ class LocationEntityReadWriteTest {
     @Throws(Exception::class)
     fun writeLocationsWithSameIdAndReadInList() {
 
-        val uniqueID = "whatever"
-        val entity1: LocationEntity = LocationEntity(uniqueID, "Amsterdam", 52.370216, 4.895168)
+        val UNIQUE_ID = "whatever"
+        val entity1: LocationEntity = LocationEntity(UNIQUE_ID, "Amsterdam", 52.370216, 4.895168)
         runBlocking {
             dao.insert(entity1)
         }
@@ -73,9 +82,10 @@ class LocationEntityReadWriteTest {
         val list = dao.getLocations()
         assertThat(list.get(0), equalTo(entity1))
 
+        // entity2 should not be inserted due to the Conflict
         val entity2: LocationEntity =
-            LocationEntity(uniqueID, "Paris", 48.8534, 2.3488)
-        // TODO handle correctly
+            LocationEntity(UNIQUE_ID, "Paris", 48.8534, 2.3488)
+
         runBlocking {
             dao.insert(entity2)
         }
