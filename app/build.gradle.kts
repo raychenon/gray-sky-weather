@@ -68,7 +68,7 @@ dependencies {
     implementation(AndroidX.room.runtime)
     kapt(AndroidX.room.compiler)
     implementation(AndroidX.room.ktx)
-    implementation(AndroidX.room.common)
+    // implementation(AndroidX.room.coroutines)
 
     // network
     implementation(Square.retrofit2.retrofit)

@@ -9,5 +9,5 @@ interface LocationRepository {
 
     suspend fun deleteLocation(name: String): Unit
 
-    fun retrieveLocations(): List<LocationName>
+    suspend fun retrieveLocations(): List<LocationName>
 }

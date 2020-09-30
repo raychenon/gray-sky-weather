@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.main_activity)
 
+        mainViewModel.initialize()
+
         val extras = intent.extras
         extras?.let {
             val enabled = it.getBoolean(BUNDLE_GEOLOC)
@@ -70,12 +72,6 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the SDK
         Places.initialize(applicationContext, getString(R.string.cloud_platform_api))
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        //mainViewModel.initialize()
     }
 
     fun showWeatherFragments(locations: List<LocationName>) {

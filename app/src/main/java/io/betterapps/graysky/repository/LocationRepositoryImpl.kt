@@ -15,7 +15,7 @@ class LocationRepositoryImpl(private val dao: LocationDao) : LocationRepository 
         dao.deleteCity(name)
     }
 
-    override fun retrieveLocations(): List<LocationName> {
+    override suspend fun retrieveLocations(): List<LocationName> {
         val mutableList = mutableListOf<LocationName>()
         mutableList.addAll(dao.getLocations()
             .map { it -> LocationName(it.name, GeoLocation(it.latitude, it.longitude)) })

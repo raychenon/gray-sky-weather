@@ -9,6 +9,7 @@ import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.domains.LocationName
 import io.betterapps.graysky.repository.LocationRepository
 import io.betterapps.graysky.utils.distance
+import io.betterapps.graysky.utils.toLocationName
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,8 +24,10 @@ class MainViewModel(private val locationRepository: LocationRepository) : ViewMo
         locationNames.addAll(GlobalConstants.CITIES)
     }
 
-    fun initialize(){
-        locationNames.addAll(getLocations())
+    fun initialize() {
+        CoroutineScope(CoroutineName("init")).launch {
+            locationNames.addAll(locationRepository.retrieveLocations())
+        }
     }
 
     fun sortByDistance(
@@ -48,6 +51,7 @@ class MainViewModel(private val locationRepository: LocationRepository) : ViewMo
         }
 
     fun addLocation(locationEntity: LocationEntity): Unit {
+        locationNames.add(locationEntity.toLocationName())
         CoroutineScope(CoroutineName("add")).launch {
             locationRepository.addLocation(locationEntity)
         }
@@ -57,9 +61,5 @@ class MainViewModel(private val locationRepository: LocationRepository) : ViewMo
         CoroutineScope(CoroutineName("delete")).launch {
             locationRepository.deleteLocation(cityName)
         }
-    }
-
-    fun getLocations(): List<LocationName> {
-        return locationRepository.retrieveLocations()
     }
 }
