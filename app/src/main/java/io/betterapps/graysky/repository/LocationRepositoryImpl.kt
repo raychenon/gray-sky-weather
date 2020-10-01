@@ -28,7 +28,7 @@ class LocationRepositoryImpl(
     }
 
     override fun deleteLocation(name: String) {
-        cache.remove(name)
+        cache.removeIf { x: LocationName -> name.equals(x.name) }
         CoroutineScope(CoroutineName("delete")).launch {
             dao.deleteCity(name)
         }

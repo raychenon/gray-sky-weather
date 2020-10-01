@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "io.betterapps.graysky"
-        minSdkVersion(23)
+        minSdkVersion(24)
         targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
