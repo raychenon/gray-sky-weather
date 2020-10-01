@@ -3,7 +3,6 @@ package io.betterapps.graysky.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import io.betterapps.graysky.const.GlobalConstants
 import io.betterapps.graysky.data.db.entities.LocationEntity
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.domains.LocationName
@@ -23,16 +22,16 @@ class MainViewModel(private val locationRepository: LocationRepository) : ViewMo
         liveData(Dispatchers.IO) {
 
             val list = mutableListOf<Pair<Int, Double>>()
-            for (i in 0 until locationRepository.locationNames.size) {
-                list.add(Pair(i, currentGeoLocation.distance(locationRepository.locationNames[i].geoLocation)))
+            for (i in 0 until locationRepository.cache.size) {
+                list.add(Pair(i, currentGeoLocation.distance(locationRepository.cache[i].geoLocation)))
             }
             list.sortBy { p -> p.second }
 
             val locationsSorted = mutableListOf<LocationName>()
             locationsSorted.add(LocationName(null, currentGeoLocation, 0.0))
-            for (i in 0 until locationRepository.locationNames.size) {
+            for (i in 0 until locationRepository.cache.size) {
                 val index = list[i].first
-                locationsSorted.add(locationRepository.locationNames[index].copy(distanceInKm = list[i].second))
+                locationsSorted.add(locationRepository.cache[index].copy(distanceInKm = list[i].second))
             }
             emit(locationsSorted)
         }
