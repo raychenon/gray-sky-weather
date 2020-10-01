@@ -76,7 +76,7 @@ class WeatherForecastFragment : Fragment() {
 
         val errorMessage = { "since Koin DI is done at run time instead of compile time, better to check" }
         checkNotNull(weatherViewModel, errorMessage)
-        checkNotNull(weatherViewModel.repository, errorMessage)
+        checkNotNull(weatherViewModel.weatherRepository, errorMessage)
         checkNotNull(geolocation, errorMessage)
 
         weatherViewModel.requestWeatherByLocation(geolocation)

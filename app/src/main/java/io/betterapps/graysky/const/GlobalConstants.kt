@@ -16,11 +16,11 @@ object GlobalConstants {
     val CITIES = listOf<LocationName>(
         LocationName("Paris", GeoLocation(48.8534, 2.3488)),
         // LocationName("Gravelines", GeoLocation(50.9833, 2.1167)),
-        LocationName("Amsterdam", GeoLocation(52.370216, 4.895168)),
-        LocationName("Tallinn", GeoLocation(59.4369608, 24.7535746)),
+        // LocationName("Amsterdam", GeoLocation(52.370216, 4.895168)),
+        // LocationName("Tallinn", GeoLocation(59.4369608, 24.7535746)),
         // LocationName("Chicago", GeoLocation(41.8119, -87.6873)),
         // LocationName("Dallas", GeoLocation(32.9503, -96.819)),
-        LocationName("New York", GeoLocation(40.7808, -73.9772)),
+        // LocationName("New York", GeoLocation(40.7808, -73.9772)),
         // LocationName("Santa Clara", GeoLocation(37.3997, -121.9608))
     )
 

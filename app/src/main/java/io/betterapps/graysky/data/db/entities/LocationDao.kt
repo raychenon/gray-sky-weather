@@ -10,7 +10,7 @@ import androidx.room.Query
 @Dao
 interface LocationDao {
     @Query("SELECT * from location_table")
-    fun getLocations(): List<LocationEntity>
+    suspend fun getLocations(): List<LocationEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(location: LocationEntity)

@@ -16,6 +16,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import es.dmoral.toasty.Toasty
 import io.betterapps.graysky.const.GlobalConstants
+import io.betterapps.graysky.data.db.entities.LocationEntity
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.domains.LocationName
 import io.betterapps.graysky.geoloc.UserLocationDelegate
@@ -53,6 +54,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.main_activity)
+
+        mainViewModel.initialize()
+
         val extras = intent.extras
         extras?.let {
             val enabled = it.getBoolean(BUNDLE_GEOLOC)
@@ -126,12 +130,17 @@ class MainActivity : AppCompatActivity() {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
                         Timber.i("onActivityResult Place: ${place.name}, ${place.id}, ${place.latLng} , address = ${place.address} , \n , ${place.toString()}")
-                        val city = LocationName(
-                            place.name,
-                            GeoLocation(place.latLng!!.latitude, place.latLng!!.longitude)
+
+                        mainViewModel.addLocation(
+                            LocationEntity(
+                                place.id!!,
+                                place.name!!,
+                                place.address!!,
+                                place.latLng!!.latitude,
+                                place.latLng!!.longitude
+                            )
                         )
-                        locationNames.add(city)
-                        Timber.i("onActivityResult, locationNames = ${locationNames.toString()}")
+
                         val geolocation = lastUserKnownLocation ?: GlobalConstants.USER_LOCATION
                         displayWeatherFromLocations(geolocation)
                     }
@@ -194,7 +203,7 @@ class MainActivity : AppCompatActivity() {
         // clean previous views
         main_container.removeAllViews()
 
-        mainViewModel.sortByDistance(currentUserlocation, locationNames)
+        mainViewModel.sortByDistance(currentUserlocation)
             .observe(
                 this,
                 androidx.lifecycle.Observer {
