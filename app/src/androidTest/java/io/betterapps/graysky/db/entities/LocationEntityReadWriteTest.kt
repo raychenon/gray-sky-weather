@@ -66,7 +66,9 @@ class LocationEntityReadWriteTest {
             dao.insert(entity1)
             val list = dao.getLocations()
             assertThat(list.get(0), equalTo(entity1))
+        }
 
+        runBlocking {
             dao.insert(entity2)
             val list2 = dao.getLocations()
             assertThat(list2.size, equalTo(2))
