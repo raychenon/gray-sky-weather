@@ -33,6 +33,11 @@ Open in [Android Studio](https://developer.android.com/studio) the file `build.g
 
 Build & Run 🔥
 
+## Update the latest versions of dependencies
+
+Thanks to [refreshVersions](https://github.com/jmfayard/refreshVersions), enter the following terminal command line
+`./gradlew refreshVersions`
+
 ## 🕵️‍ How to test 
 All the locations are hardcoded in `GlobalConstants.CITIES`.
 

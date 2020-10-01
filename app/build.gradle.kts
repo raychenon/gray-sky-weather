@@ -5,6 +5,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -47,6 +48,11 @@ android {
 
 val ktlint by configurations.creating
 
+kapt {
+    // https://kotlinlang.org/docs/reference/kapt.html
+    useBuildCache = false
+}
+
 dependencies {
 
     implementation(Kotlin.stdlib.jdk8)
@@ -59,7 +65,10 @@ dependencies {
     implementation(AndroidX.recyclerView) // "androidx.recyclerview:recyclerview:_")
     // For control over item selection of both touch and mouse driven selection
     // implementation(AndroidX.recyclerViewSelection) TODO: 1.1.0 does not exist
-    implementation("androidx.recyclerview:recyclerview-selection:1.1.0-rc01")
+    implementation(AndroidX.room.runtime)
+    kapt(AndroidX.room.compiler)
+    implementation(AndroidX.room.ktx)
+    // implementation(AndroidX.room.coroutines)
 
     // network
     implementation(Square.retrofit2.retrofit)
@@ -67,7 +76,7 @@ dependencies {
     implementation(Square.retrofit2.converter.gson)
     implementation("com.google.code.gson:gson:_") // TODO
 
-    implementation("com.squareup.picasso:picasso:_")
+    implementation(Square.picasso)
 
     // Koin for Android
     implementation("org.koin:koin-android:_") // TODO add koin
@@ -101,6 +110,8 @@ dependencies {
     testImplementation(Testing.junit4)
     testImplementation("org.koin:koin-test:_")
     testImplementation(Testing.mockito.kotlin)
+
+    testImplementation(AndroidX.room.testing)
 
     // testImplementation(for pure JVM unit tests)
     testImplementation(KotlinX.coroutines.test)
