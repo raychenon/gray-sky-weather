@@ -58,6 +58,7 @@ class MainViewModel(private val locationRepository: LocationRepository) : ViewMo
     }
 
     fun deleteLocation(cityName: String): Unit {
+        locationNames.remove(cityName)
         CoroutineScope(CoroutineName("delete")).launch {
             locationRepository.deleteLocation(cityName)
         }
