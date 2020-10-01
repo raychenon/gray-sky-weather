@@ -5,7 +5,7 @@ import io.betterapps.graysky.data.domains.LocationName
 
 interface LocationRepository {
 
-    var cache: MutableList<LocationName>
+    val cache: MutableList<LocationName>
 
     fun initialize()
 

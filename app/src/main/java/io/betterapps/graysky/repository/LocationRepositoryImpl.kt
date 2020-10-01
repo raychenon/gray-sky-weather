@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class LocationRepositoryImpl(
     private val dao: LocationDao,
-    override var cache: MutableList<LocationName> = mutableListOf()
+    override val cache: MutableList<LocationName> = mutableListOf()
 ) : LocationRepository {
 
     override fun initialize() {
