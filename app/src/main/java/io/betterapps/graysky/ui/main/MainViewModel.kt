@@ -3,31 +3,17 @@ package io.betterapps.graysky.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import io.betterapps.graysky.const.GlobalConstants
 import io.betterapps.graysky.data.db.entities.LocationEntity
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.domains.LocationName
 import io.betterapps.graysky.repository.LocationRepository
 import io.betterapps.graysky.utils.distance
-import io.betterapps.graysky.utils.toLocationName
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainViewModel(private val locationRepository: LocationRepository) : ViewModel() {
 
-    private lateinit var locationNames: MutableList<LocationName>
-
-    init {
-        locationNames = mutableListOf()
-        locationNames.addAll(GlobalConstants.CITIES)
-    }
-
     fun initialize() {
-        CoroutineScope(CoroutineName("init")).launch {
-            locationNames.addAll(locationRepository.retrieveLocations())
-        }
+        locationRepository.initialize()
     }
 
     fun sortByDistance(
@@ -36,31 +22,25 @@ class MainViewModel(private val locationRepository: LocationRepository) : ViewMo
         liveData(Dispatchers.IO) {
 
             val list = mutableListOf<Pair<Int, Double>>()
-            for (i in 0 until locationNames.size) {
-                list.add(Pair(i, currentGeoLocation.distance(locationNames[i].geoLocation)))
+            for (i in 0 until locationRepository.cache.size) {
+                list.add(Pair(i, currentGeoLocation.distance(locationRepository.cache[i].geoLocation)))
             }
             list.sortBy { p -> p.second }
 
             val locationsSorted = mutableListOf<LocationName>()
             locationsSorted.add(LocationName(null, currentGeoLocation, 0.0))
-            for (i in 0 until locationNames.size) {
+            for (i in 0 until locationRepository.cache.size) {
                 val index = list[i].first
-                locationsSorted.add(locationNames[index].copy(distanceInKm = list[i].second))
+                locationsSorted.add(locationRepository.cache[index].copy(distanceInKm = list[i].second))
             }
             emit(locationsSorted)
         }
 
     fun addLocation(locationEntity: LocationEntity): Unit {
-        locationNames.add(locationEntity.toLocationName())
-        CoroutineScope(CoroutineName("add")).launch {
-            locationRepository.addLocation(locationEntity)
-        }
+        locationRepository.addLocation(locationEntity)
     }
 
     fun deleteLocation(cityName: String): Unit {
-        locationNames.remove(cityName)
-        CoroutineScope(CoroutineName("delete")).launch {
-            locationRepository.deleteLocation(cityName)
-        }
+        locationRepository.deleteLocation(cityName)
     }
 }

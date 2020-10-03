@@ -1,6 +1,5 @@
 package io.betterapps.graysky.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.mock
 import io.betterapps.graysky.data.api.ApiHelper
 import io.betterapps.graysky.data.domains.GeoLocation
@@ -10,17 +9,9 @@ import io.betterapps.graysky.data.network.RetrofitFactory
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
-@RunWith(JUnit4::class)
 class WeatherRepositoryTest {
-
-    @Rule
-    @JvmField
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var mockApiHelper: ApiHelper
 

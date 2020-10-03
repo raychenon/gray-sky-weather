@@ -5,9 +5,13 @@ import io.betterapps.graysky.data.domains.LocationName
 
 interface LocationRepository {
 
-    suspend fun addLocation(locationEntity: LocationEntity): Unit
+    val cache: MutableList<LocationName>
 
-    suspend fun deleteLocation(name: String): Unit
+    fun initialize()
+
+    fun addLocation(locationEntity: LocationEntity): Unit
+
+    fun deleteLocation(name: String): Unit
 
     suspend fun retrieveLocations(): List<LocationName>
 }
