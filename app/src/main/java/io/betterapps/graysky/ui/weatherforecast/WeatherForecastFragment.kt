@@ -27,12 +27,14 @@ class WeatherForecastFragment : Fragment() {
         const val ARG_LATITUDE = "latitude"
         const val ARG_LONGITUDE = "longitude"
         const val ARG_DISTANCE = "distance"
+        const val ARG_POSITION_LIST = "positon"
 
         fun newInstance(
             name: String?,
             latitude: Double,
             longitude: Double,
-            distanceFromUserLocation: Double
+            distanceFromUserLocation: Double,
+            position: Int
         ): WeatherForecastFragment {
             val fragment = WeatherForecastFragment()
 
@@ -41,6 +43,7 @@ class WeatherForecastFragment : Fragment() {
                 putDouble(ARG_LATITUDE, latitude)
                 putDouble(ARG_LONGITUDE, longitude)
                 putDouble(ARG_DISTANCE, distanceFromUserLocation)
+                putInt(ARG_POSITION_LIST, position)
             }
 
             fragment.arguments = bundle
@@ -52,6 +55,7 @@ class WeatherForecastFragment : Fragment() {
     lateinit var geolocation: GeoLocation
     var distanceFromUserLocation: Double = 0.0
     var locationName: String? = null
+    var position: Int = 0
 
     // lazy inject
     val weatherViewModel: WeatherViewModel by viewModel()
@@ -67,6 +71,7 @@ class WeatherForecastFragment : Fragment() {
             arguments?.getDouble(ARG_LONGITUDE)!!
         )
         distanceFromUserLocation = arguments?.getDouble(ARG_DISTANCE)!!
+        position = arguments!!.getInt(ARG_POSITION_LIST,0)
 
         return inflater.inflate(R.layout.forecast_weather_fragment, container, false)
     }

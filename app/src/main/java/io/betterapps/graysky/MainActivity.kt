@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
 
     fun showWeatherFragments(locations: List<LocationName>) {
         val ft = supportFragmentManager.beginTransaction()
+        var position = 0
         for (location in locations) {
             ft.add(
                 R.id.main_container,
@@ -83,7 +84,8 @@ class MainActivity : AppCompatActivity() {
                     location.name,
                     location.geoLocation.latitude,
                     location.geoLocation.longitude,
-                    location.distanceInKm
+                    location.distanceInKm,
+                    position++
                 ),
                 location.name
             )
