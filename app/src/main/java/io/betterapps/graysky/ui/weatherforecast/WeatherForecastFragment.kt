@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -112,6 +113,15 @@ class WeatherForecastFragment : Fragment() {
             } else {
                 displayCityName("No geocoder", distanceFromUserLocation.toInt())
             }
+        }
+
+        weather_forecast_constraintlayout.setOnClickListener() {
+            Toast.makeText(context,"Clicked long", Toast.LENGTH_LONG).show()
+        }
+
+        forecast_weather_location_textview.setOnLongClickListener {
+            Toast.makeText(context,"Clicked ${position} ${locationName}", Toast.LENGTH_LONG).show()
+            return@setOnLongClickListener true
         }
     }
 
