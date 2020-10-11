@@ -115,10 +115,6 @@ class WeatherForecastFragment : Fragment() {
             }
         }
 
-        weather_forecast_constraintlayout.setOnClickListener() {
-            Toast.makeText(context,"Clicked long", Toast.LENGTH_LONG).show()
-        }
-
         forecast_weather_location_textview.setOnLongClickListener {
             Toast.makeText(context,"Clicked ${position} ${locationName}", Toast.LENGTH_LONG).show()
             return@setOnLongClickListener true
