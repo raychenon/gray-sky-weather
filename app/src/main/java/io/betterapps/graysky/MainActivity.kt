@@ -22,11 +22,12 @@ import io.betterapps.graysky.data.domains.LocationName
 import io.betterapps.graysky.geoloc.UserLocationDelegate
 import io.betterapps.graysky.ui.main.MainViewModel
 import io.betterapps.graysky.ui.weatherforecast.WeatherForecastFragment
+import io.betterapps.graysky.ui.weatherforecast.onDeleteLocation
 import kotlinx.android.synthetic.main.main_activity.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), onDeleteLocation {
 
     // lazy inject
     val mainViewModel: MainViewModel by viewModel()
@@ -78,15 +79,14 @@ class MainActivity : AppCompatActivity() {
         val ft = supportFragmentManager.beginTransaction()
         var position = 0
         for (location in locations) {
+
+            val fragment  =  WeatherForecastFragment.newInstance(
+                location.name, location.geoLocation.latitude, location.geoLocation.longitude,
+                location.distanceInKm, position++)
+            fragment.setDeleteListener(this)
             ft.add(
                 R.id.main_container,
-                WeatherForecastFragment.newInstance(
-                    location.name,
-                    location.geoLocation.latitude,
-                    location.geoLocation.longitude,
-                    location.distanceInKm,
-                    position++
-                ),
+                fragment,
                 location.name
             )
         }
@@ -236,5 +236,13 @@ class MainActivity : AppCompatActivity() {
             grantResults,
             { loc -> displayWeatherOrError(loc) }
         )
+    }
+
+    override fun onDelete(position: Int, locationName: String) {
+        Toasty.success(this, "Clicked! ${position} ${locationName}", Toast.LENGTH_SHORT, true).show()
+        // Toast.makeText(this, "Clicked ${position} ${locationName}", Toast.LENGTH_LONG).show()
+
+        main_container.removeViewAt(position)
+        mainViewModel.deleteLocation(locationName)
     }
 }

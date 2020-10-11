@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,6 +56,7 @@ class WeatherForecastFragment : Fragment() {
     var distanceFromUserLocation: Double = 0.0
     var locationName: String? = null
     var position: Int = 0
+    var onDeleteListener: onDeleteLocation? = null
 
     // lazy inject
     val weatherViewModel: WeatherViewModel by viewModel()
@@ -72,7 +72,7 @@ class WeatherForecastFragment : Fragment() {
             arguments?.getDouble(ARG_LONGITUDE)!!
         )
         distanceFromUserLocation = arguments?.getDouble(ARG_DISTANCE)!!
-        position = arguments!!.getInt(ARG_POSITION_LIST,0)
+        position = arguments!!.getInt(ARG_POSITION_LIST, 0)
 
         return inflater.inflate(R.layout.forecast_weather_fragment, container, false)
     }
@@ -80,7 +80,8 @@ class WeatherForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val errorMessage = { "since Koin DI is done at run time instead of compile time, better to check" }
+        val errorMessage =
+            { "since Koin DI is done at run time instead of compile time, better to check" }
         checkNotNull(weatherViewModel, errorMessage)
         checkNotNull(weatherViewModel.weatherRepository, errorMessage)
         checkNotNull(geolocation, errorMessage)
@@ -116,9 +117,13 @@ class WeatherForecastFragment : Fragment() {
         }
 
         forecast_weather_location_textview.setOnLongClickListener {
-            Toast.makeText(context,"Clicked ${position} ${locationName}", Toast.LENGTH_LONG).show()
+            this.onDeleteListener?.onDelete(position, locationName!!)
             return@setOnLongClickListener true
         }
+    }
+
+    public fun setDeleteListener(handler: onDeleteLocation): Unit {
+        this.onDeleteListener = handler
     }
 
     private fun displayCityName(cityName: String, distanceFromUserLocation: Int) {
@@ -164,4 +169,8 @@ class WeatherForecastFragment : Fragment() {
             layoutManager = horizontalLayoutManager
         }
     }
+}
+
+interface onDeleteLocation {
+    fun onDelete(position: Int, locationName: String)
 }
