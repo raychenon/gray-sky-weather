@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity(), onDeleteLocation {
         var position = 0
         for (location in locations) {
 
-            val fragment  =  WeatherForecastFragment.newInstance(
+            val fragment = WeatherForecastFragment.newInstance(
                 location.name, location.geoLocation.latitude, location.geoLocation.longitude,
                 location.distanceInKm, position++)
             fragment.setDeleteListener(this)
@@ -239,10 +240,23 @@ class MainActivity : AppCompatActivity(), onDeleteLocation {
     }
 
     override fun onDelete(position: Int, locationName: String) {
-        Toasty.success(this, "Clicked! ${position} ${locationName}", Toast.LENGTH_SHORT, true).show()
-        // Toast.makeText(this, "Clicked ${position} ${locationName}", Toast.LENGTH_LONG).show()
+        dialogDeleteConfirmation(position, locationName).show()
+    }
 
-        main_container.removeViewAt(position)
-        mainViewModel.deleteLocation(locationName)
+    fun dialogDeleteConfirmation(position: Int, locationName: String): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle(R.string.location_delete_title)
+        builder.setMessage(getString(R.string.location_delete_description, locationName))
+            .setCancelable(false)
+            .setPositiveButton(R.string.location_delete_confirm) { dialog, id ->
+                main_container.removeViewAt(position)
+                mainViewModel.deleteLocation(locationName)
+            }
+            .setNegativeButton(R.string.location_delete_no) { dialog, id -> //  Action for 'NO' Button
+                dialog.cancel()
+            }
+        val alert = builder.create()
+        return alert
     }
 }
