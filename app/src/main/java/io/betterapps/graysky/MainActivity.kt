@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -22,11 +23,12 @@ import io.betterapps.graysky.data.domains.LocationName
 import io.betterapps.graysky.geoloc.UserLocationDelegate
 import io.betterapps.graysky.ui.main.MainViewModel
 import io.betterapps.graysky.ui.weatherforecast.WeatherForecastFragment
+import io.betterapps.graysky.ui.weatherforecast.onDeleteLocation
 import kotlinx.android.synthetic.main.main_activity.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), onDeleteLocation {
 
     // lazy inject
     val mainViewModel: MainViewModel by viewModel()
@@ -76,15 +78,16 @@ class MainActivity : AppCompatActivity() {
 
     fun showWeatherFragments(locations: List<LocationName>) {
         val ft = supportFragmentManager.beginTransaction()
+        var position = 0
         for (location in locations) {
+
+            val fragment = WeatherForecastFragment.newInstance(
+                location.name, location.geoLocation.latitude, location.geoLocation.longitude,
+                location.distanceInKm, position++)
+            fragment.setDeleteListener(this)
             ft.add(
                 R.id.main_container,
-                WeatherForecastFragment.newInstance(
-                    location.name,
-                    location.geoLocation.latitude,
-                    location.geoLocation.longitude,
-                    location.distanceInKm
-                ),
+                fragment,
                 location.name
             )
         }
@@ -234,5 +237,24 @@ class MainActivity : AppCompatActivity() {
             grantResults,
             { loc -> displayWeatherOrError(loc) }
         )
+    }
+
+    override fun onDelete(position: Int, locationName: String) {
+        dialogDeleteConfirmation(position, locationName).show()
+    }
+
+    private fun dialogDeleteConfirmation(position: Int, locationName: String): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.location_delete_title)
+        builder.setMessage(getString(R.string.location_delete_description, locationName))
+            .setCancelable(false)
+            .setPositiveButton(R.string.location_delete_confirm) { dialog, id ->
+                main_container.removeViewAt(position)
+                mainViewModel.deleteLocation(locationName)
+            }
+            .setNegativeButton(R.string.location_delete_no) { dialog, id ->
+                dialog.cancel()
+            }
+        return builder.create()
     }
 }
