@@ -12,7 +12,7 @@
     <string name="search_button">Search locations</string>
     <string name="menu_add">Add new location</string>
     <string name="location_delete_title">Delete Location</string>
-    <string name="location_delete_description">Are you sure to delete %s from the list?</string>
+    <string name="location_delete_description">Are you sure you want to delete %s from the list?</string>
     <string name="location_delete_confirm">Confirm</string>
     <string name="location_delete_no">No</string>
 </resources>

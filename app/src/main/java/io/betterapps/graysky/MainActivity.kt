@@ -243,9 +243,8 @@ class MainActivity : AppCompatActivity(), onDeleteLocation {
         dialogDeleteConfirmation(position, locationName).show()
     }
 
-    fun dialogDeleteConfirmation(position: Int, locationName: String): AlertDialog {
+    private fun dialogDeleteConfirmation(position: Int, locationName: String): AlertDialog {
         val builder = AlertDialog.Builder(this)
-
         builder.setTitle(R.string.location_delete_title)
         builder.setMessage(getString(R.string.location_delete_description, locationName))
             .setCancelable(false)
@@ -253,10 +252,9 @@ class MainActivity : AppCompatActivity(), onDeleteLocation {
                 main_container.removeViewAt(position)
                 mainViewModel.deleteLocation(locationName)
             }
-            .setNegativeButton(R.string.location_delete_no) { dialog, id -> //  Action for 'NO' Button
+            .setNegativeButton(R.string.location_delete_no) { dialog, id ->
                 dialog.cancel()
             }
-        val alert = builder.create()
-        return alert
+        return builder.create()
     }
 }
