@@ -59,7 +59,7 @@ dependencies {
     implementation(AndroidX.core.ktx)
     implementation(AndroidX.appCompat)
     implementation(AndroidX.constraintLayout)
-    implementation(AndroidX.lifecycle.extensions)
+    // implementation(AndroidX.lifecycle.extensions)
     implementation(AndroidX.lifecycle.viewModelKtx)
     implementation(AndroidX.lifecycle.liveDataKtx)
     implementation(AndroidX.recyclerView) // "androidx.recyclerview:recyclerview:_")
