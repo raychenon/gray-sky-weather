@@ -33,7 +33,7 @@ class MainViewModel(private val locationRepository: LocationRepository) : ViewMo
                 val index = list[i].first
                 locationsSorted.add(locationRepository.cache[index].copy(distanceInKm = list[i].second))
             }
-            emit(locationsSorted)
+            emit(locationsSorted.toList())
         }
 
     fun addLocation(locationEntity: LocationEntity): Unit {
