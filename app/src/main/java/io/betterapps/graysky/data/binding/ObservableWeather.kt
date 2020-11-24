@@ -1,8 +1,9 @@
 package io.betterapps.graysky.data.binding
 
-import io.betterapps.graysky.data.coroutines.Status
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 
 data class ObservableWeather(
-    var progressStatus: Status,
-    var errorMsg: String?
+    val progressStatus: ObservableInt,
+    var errorMsg: ObservableField<String?>
 )

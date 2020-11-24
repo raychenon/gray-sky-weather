@@ -53,7 +53,7 @@
         android:id="@+id/forecast_weather_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="@{obsWeather.progressStatus == Status.LOADING ? View.VISIBLE : View.GONE}"
+        android:visibility="@{obsWeather.progressStatus}"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"

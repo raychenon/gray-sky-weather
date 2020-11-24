@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,7 +66,7 @@ class WeatherForecastFragment : Fragment() {
     // lazy inject
     val weatherViewModel: WeatherViewModel by viewModel()
 
-    private val observableWeather = ObservableWeather(Status.LOADING,null)
+    private val observableWeather = ObservableWeather(ObservableInt(View.VISIBLE), ObservableField(""))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,11 +81,12 @@ class WeatherForecastFragment : Fragment() {
         distanceFromUserLocation = arguments?.getDouble(ARG_DISTANCE)!!
         position = arguments!!.getInt(ARG_POSITION_LIST, 0)
 
-        val binding: ForecastWeatherFragmentBinding = DataBindingUtil.inflate(inflater,
-            R.layout.forecast_weather_fragment, container, false)
+        val binding: ForecastWeatherFragmentBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.forecast_weather_fragment, container, false
+        )
         binding.obsWeather = observableWeather
         return binding.root
-
 
         // return inflater.inflate(R.layout.forecast_weather_fragment, container, false)
     }
@@ -146,7 +149,9 @@ class WeatherForecastFragment : Fragment() {
         resource: Resource<WeatherByLocationResponse>
     ) {
         Timber.d("processWeatherResults , resource.status = ${resource.status}")
-        observableWeather.progressStatus = resource.status
+        observableWeather.progressStatus.set(if (resource.status == Status.LOADING) View.VISIBLE else View.GONE)
+        observableWeather.errorMsg.set(resource.message)
+
         when (resource.status) {
             Status.LOADING -> {
                 // forecast_weather_progressbar.visibility = View.VISIBLE
@@ -160,7 +165,7 @@ class WeatherForecastFragment : Fragment() {
             Status.ERROR -> {
                 // forecast_weather_progressbar.visibility = View.INVISIBLE
                 // forecast_weather_error_textview.visibility = View.VISIBLE
-                observableWeather.errorMsg = resource.message
+                // observableWeather.errorMsg = resource.message
                 // forecast_weather_error_textview.text = resource.message
             }
         }
