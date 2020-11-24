@@ -66,7 +66,8 @@ class WeatherForecastFragment : Fragment() {
     // lazy inject
     val weatherViewModel: WeatherViewModel by viewModel()
 
-    private val observableWeather = ObservableWeather(ObservableInt(View.VISIBLE), ObservableField(""))
+    private val observableWeather =
+        ObservableWeather(ObservableInt(View.VISIBLE), ObservableField(""))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -145,28 +146,13 @@ class WeatherForecastFragment : Fragment() {
             getString(R.string.location_format, cityName, distanceFromUserLocation)
     }
 
-    private fun processWeatherResults(
-        resource: Resource<WeatherByLocationResponse>
-    ) {
-        Timber.d("processWeatherResults , resource.status = ${resource.status}")
+    private fun processWeatherResults(resource: Resource<WeatherByLocationResponse>) {
         observableWeather.progressStatus.set(if (resource.status == Status.LOADING) View.VISIBLE else View.GONE)
         observableWeather.errorMsg.set(resource.message)
 
         when (resource.status) {
-            Status.LOADING -> {
-                // forecast_weather_progressbar.visibility = View.VISIBLE
-            }
             Status.SUCCESS -> {
-                // forecast_weather_progressbar.visibility = View.INVISIBLE
-                // forecast_weather_error_textview.visibility = View.GONE
-
                 resource.data?.let { setupUI(it) }
-            }
-            Status.ERROR -> {
-                // forecast_weather_progressbar.visibility = View.INVISIBLE
-                // forecast_weather_error_textview.visibility = View.VISIBLE
-                // observableWeather.errorMsg = resource.message
-                // forecast_weather_error_textview.text = resource.message
             }
         }
     }
