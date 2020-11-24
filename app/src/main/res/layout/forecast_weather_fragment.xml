@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View"/>
+        <import type="io.betterapps.graysky.data.coroutines.Status"/>
         <variable
-            name="viewmodel"
-            type="io.betterapps.graysky.ui.weatherforecast.WeatherViewModel" />
+            name="obsWeather"
+            type="io.betterapps.graysky.data.binding.ObservableWeather" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/weather_forecast_constraintlayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".ui.weatherforecast.WeatherForecastFragment">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/forecast_weather_location_textview"
@@ -41,7 +41,8 @@
         android:background="@color/errorBackground"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:visibility="gone"
+        android:visibility="@{obsWeather.errorMsg == null ? View.GONE : View.VISIBLE}"
+        android:text="@{obsWeather.errorMsg}"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -52,7 +53,7 @@
         android:id="@+id/forecast_weather_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="@{obsWeather.progressStatus == Status.LOADING ? View.VISIBLE : View.GONE}"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"

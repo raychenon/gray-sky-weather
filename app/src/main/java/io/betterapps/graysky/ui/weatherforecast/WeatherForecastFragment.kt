@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.betterapps.graysky.R
+import io.betterapps.graysky.data.binding.ObservableWeather
 import io.betterapps.graysky.data.coroutines.Resource
 import io.betterapps.graysky.data.coroutines.Status
 import io.betterapps.graysky.data.domains.GeoLocation
 import io.betterapps.graysky.data.models.WeatherByLocationResponse
+import io.betterapps.graysky.databinding.ForecastWeatherFragmentBinding
 import io.betterapps.graysky.ui.adapter.HourlyWeatherAdapter
 import kotlinx.android.synthetic.main.forecast_weather_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -61,6 +64,8 @@ class WeatherForecastFragment : Fragment() {
     // lazy inject
     val weatherViewModel: WeatherViewModel by viewModel()
 
+    private val observableWeather = ObservableWeather(Status.LOADING,null)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,7 +79,13 @@ class WeatherForecastFragment : Fragment() {
         distanceFromUserLocation = arguments?.getDouble(ARG_DISTANCE)!!
         position = arguments!!.getInt(ARG_POSITION_LIST, 0)
 
-        return inflater.inflate(R.layout.forecast_weather_fragment, container, false)
+        val binding: ForecastWeatherFragmentBinding = DataBindingUtil.inflate(inflater,
+            R.layout.forecast_weather_fragment, container, false)
+        binding.obsWeather = observableWeather
+        return binding.root
+
+
+        // return inflater.inflate(R.layout.forecast_weather_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -134,20 +145,23 @@ class WeatherForecastFragment : Fragment() {
     private fun processWeatherResults(
         resource: Resource<WeatherByLocationResponse>
     ) {
+        Timber.d("processWeatherResults , resource.status = ${resource.status}")
+        observableWeather.progressStatus = resource.status
         when (resource.status) {
             Status.LOADING -> {
-                forecast_weather_progressbar.visibility = View.VISIBLE
+                // forecast_weather_progressbar.visibility = View.VISIBLE
             }
             Status.SUCCESS -> {
-                forecast_weather_progressbar.visibility = View.INVISIBLE
-                forecast_weather_error_textview.visibility = View.GONE
+                // forecast_weather_progressbar.visibility = View.INVISIBLE
+                // forecast_weather_error_textview.visibility = View.GONE
 
                 resource.data?.let { setupUI(it) }
             }
             Status.ERROR -> {
-                forecast_weather_progressbar.visibility = View.INVISIBLE
-                forecast_weather_error_textview.visibility = View.VISIBLE
-                forecast_weather_error_textview.text = resource.message
+                // forecast_weather_progressbar.visibility = View.INVISIBLE
+                // forecast_weather_error_textview.visibility = View.VISIBLE
+                observableWeather.errorMsg = resource.message
+                // forecast_weather_error_textview.text = resource.message
             }
         }
     }
