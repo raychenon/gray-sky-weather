@@ -43,7 +43,9 @@ android {
     }
 
     // Enables data binding.
-    buildFeatures.dataBinding = true
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 val ktlint by configurations.creating
